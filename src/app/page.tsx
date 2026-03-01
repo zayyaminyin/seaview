@@ -38,19 +38,18 @@ const statusCounts = statusOrder.reduce(
 const endangeredCount = species.filter((s) =>
   (["EN", "CR", "VU"] as ConservationStatus[]).includes(s.conservationStatus)
 ).length;
-const criticalCount = species.filter((s) => s.conservationStatus === "CR").length;
 const latestYear = yearlyStats[yearlyStats.length - 1];
 
 const quickLinks = [
-  { href: "/biodiversity", label: "Species Catalog", icon: Fish, desc: `${species.length} marine species tracked`, color: "#1565a0" },
-  { href: "/dashboard", label: "Ocean Dashboard", icon: BarChart3, desc: "NOAA & IUCN real-time data", color: "#2e7d32" },
-  { href: "/explore", label: "Interactive Map", icon: Map, desc: "Esri ocean basemap + OBIS", color: "#6a1b9a" },
+  { href: "/biodiversity", label: "Species Catalog", icon: Fish, desc: `${species.length} marine species tracked`, color: "#4fb3d9" },
+  { href: "/dashboard", label: "Ocean Dashboard", icon: BarChart3, desc: "NOAA & IUCN real-time data", color: "#4caf50" },
+  { href: "/explore", label: "Interactive Map", icon: Map, desc: "Esri ocean basemap + OBIS", color: "#ab47bc" },
 ];
 
 export default function HomePage() {
   return (
     <div
-      className="h-full overflow-hidden bg-[#f4f5f7] p-1"
+      className="h-full overflow-hidden p-1"
       style={{
         display: "grid",
         gap: "4px",
@@ -61,22 +60,22 @@ export default function HomePage() {
       {/* ROW 1: KPI Strip */}
       <div className="flex gap-1">
         {[
-          { label: "Species Tracked", value: summaryStats.totalSpecies.toLocaleString(), icon: Fish, color: "#1565a0", spark: yearlyStats.map(y => y.totalSpeciesTracked) },
-          { label: "Endangered", value: summaryStats.totalEndangered.toLocaleString(), icon: AlertTriangle, color: "#c62828", spark: yearlyStats.map(y => y.endangeredCount) },
-          { label: "MPA Coverage", value: `${summaryStats.marineProtectedAreaPct}%`, icon: Shield, color: "#2e7d32", spark: yearlyStats.map(y => y.marinProtectedArea) },
-          { label: "Coral Coverage", value: `${latestYear.coralCoverage}%`, icon: Globe, color: "#ef6c00", spark: yearlyStats.map(y => y.coralCoverage) },
-          { label: "Temp Anomaly", value: `+${latestYear.oceanTempAnomaly}°C`, icon: TrendingUp, color: "#d32f2f", spark: yearlyStats.map(y => y.oceanTempAnomaly) },
+          { label: "Species Tracked", value: summaryStats.totalSpecies.toLocaleString(), icon: Fish, color: "#4fb3d9", spark: yearlyStats.map(y => y.totalSpeciesTracked) },
+          { label: "Endangered", value: summaryStats.totalEndangered.toLocaleString(), icon: AlertTriangle, color: "#ff6b6b", spark: yearlyStats.map(y => y.endangeredCount) },
+          { label: "MPA Coverage", value: `${summaryStats.marineProtectedAreaPct}%`, icon: Shield, color: "#4caf50", spark: yearlyStats.map(y => y.marinProtectedArea) },
+          { label: "Coral Coverage", value: `${latestYear.coralCoverage}%`, icon: Globe, color: "#ff9800", spark: yearlyStats.map(y => y.coralCoverage) },
+          { label: "Temp Anomaly", value: `+${latestYear.oceanTempAnomaly}°C`, icon: TrendingUp, color: "#ff5252", spark: yearlyStats.map(y => y.oceanTempAnomaly) },
         ].map((stat) => {
           const Icon = stat.icon;
           return (
             <div
               key={stat.label}
-              className="flex-1 bg-white border border-[#e0e0e0] rounded px-2.5 py-1.5 flex items-center gap-2"
+              className="flex-1 bg-[#111827] border border-[#1e2d3d] rounded px-2.5 py-1.5 flex items-center gap-2"
               style={{ borderLeft: `3px solid ${stat.color}` }}
             >
               <div className="flex-1 min-w-0">
-                <div className="text-[8px] font-bold uppercase tracking-wider text-[#999]">{stat.label}</div>
-                <div className="text-[15px] font-extrabold text-[#1a1a1a] leading-tight flex items-center gap-1.5">
+                <div className="text-[8px] font-bold uppercase tracking-wider text-[#556677]">{stat.label}</div>
+                <div className="text-[15px] font-extrabold text-[#e0e8f0] leading-tight flex items-center gap-1.5">
                   <Icon className="w-3.5 h-3.5 flex-shrink-0" style={{ color: stat.color }} />
                   {stat.value}
                 </div>
@@ -92,10 +91,10 @@ export default function HomePage() {
 
         {/* Column 1: Featured Species */}
         <div className="panel min-h-0 flex flex-col">
-          <div className="panel-header" style={{ borderLeft: "3px solid #1565a0" }}>
+          <div className="panel-header" style={{ borderLeft: "3px solid #4fb3d9" }}>
             <Fish className="panel-icon" size={12} />
             Featured Species
-            <span className="ml-auto text-[8px] text-[#aaa] normal-case font-normal tracking-normal">Click row</span>
+            <span className="ml-auto text-[8px] text-[#445566] normal-case font-normal tracking-normal">Click row</span>
           </div>
           <div className="panel-body p-0 overflow-y-auto">
             <table className="data-table">
@@ -113,24 +112,24 @@ export default function HomePage() {
                   <tr key={s.slug} className="cursor-pointer" onClick={() => window.location.href = `/biodiversity/${s.slug}`}>
                     <td className="p-0.5">
                       {s.images[0] && (
-                        <div className="w-7 h-7 rounded overflow-hidden bg-[#eee]">
+                        <div className="w-7 h-7 rounded overflow-hidden bg-[#1a2332]">
                           <img src={s.images[0].url} alt={s.commonName} className="w-7 h-7 object-cover" loading="lazy" />
                         </div>
                       )}
                     </td>
                     <td>
-                      <div className="text-[10px] font-bold text-[#1a1a1a] truncate max-w-[160px]">{s.commonName}</div>
-                      <div className="text-[7px] italic text-[#999] truncate max-w-[160px]">{s.scientificName}</div>
+                      <div className="text-[10px] font-bold text-[#e0e8f0] truncate max-w-[160px]">{s.commonName}</div>
+                      <div className="text-[7px] italic text-[#556677] truncate max-w-[160px]">{s.scientificName}</div>
                     </td>
                     <td><ConservationBadge status={s.conservationStatus} size="sm" showLabel={false} /></td>
-                    <td className="text-[9px] text-[#555]">{s.estimatedPopulation}</td>
+                    <td className="text-[9px] text-[#8899aa]">{s.estimatedPopulation}</td>
                     <td>
                       <Sparkline
                         data={s.populationData.map((d: { estimate: number }) => d.estimate)}
                         width={55}
                         height={14}
-                        strokeColor={s.populationTrend === "decreasing" ? "#c62828" : s.populationTrend === "increasing" ? "#1565a0" : "#888"}
-                        fillColor={s.populationTrend === "decreasing" ? "#c62828" : s.populationTrend === "increasing" ? "#1565a0" : "#888"}
+                        strokeColor={s.populationTrend === "decreasing" ? "#ff6b6b" : s.populationTrend === "increasing" ? "#4fb3d9" : "#667788"}
+                        fillColor={s.populationTrend === "decreasing" ? "#ff6b6b" : s.populationTrend === "increasing" ? "#4fb3d9" : "#667788"}
                       />
                     </td>
                   </tr>
@@ -140,12 +139,12 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Column 2: BIG Map — center stage */}
+        {/* Column 2: BIG Map */}
         <div className="panel min-h-0 flex flex-col">
-          <div className="panel-header" style={{ borderLeft: "3px solid #1565a0" }}>
+          <div className="panel-header" style={{ borderLeft: "3px solid #4fb3d9" }}>
             <Globe className="panel-icon" size={12} />
             Global Ocean Biodiversity
-            <span className="ml-auto text-[8px] text-[#aaa] normal-case font-normal tracking-normal">{species.length} species · {oceanRegions.length} regions</span>
+            <span className="ml-auto text-[8px] text-[#445566] normal-case font-normal tracking-normal">{species.length} species · {oceanRegions.length} regions</span>
           </div>
           <div className="panel-body-flush flex-1 min-h-0">
             <HomeMap className="w-full h-full" />
@@ -165,7 +164,7 @@ export default function HomePage() {
               <StatusGauge
                 value={Math.round((endangeredCount / species.length) * 100)}
                 label="At Risk"
-                color="#c62828"
+                color="#ff6b6b"
                 size={80}
               />
               <div className="w-full space-y-0.5">
@@ -177,15 +176,15 @@ export default function HomePage() {
                   return (
                     <div key={code} className="flex items-center gap-1">
                       <span className="text-[7px] font-bold w-4" style={{ color: info.color }}>{code}</span>
-                      <div className="flex-1 h-1.5 bg-[#eee] rounded overflow-hidden">
+                      <div className="flex-1 h-1.5 bg-[#1e2d3d] rounded overflow-hidden">
                         <div className="h-full rounded" style={{ width: `${pct}%`, backgroundColor: info.color }} />
                       </div>
-                      <span className="text-[7px] font-medium text-[#888] w-3 text-right">{count}</span>
+                      <span className="text-[7px] font-medium text-[#667788] w-3 text-right">{count}</span>
                     </div>
                   );
                 })}
               </div>
-              <p className="text-[6px] text-[#bbb] self-start">IUCN Red List 2024</p>
+              <p className="text-[6px] text-[#445566] self-start">IUCN Red List 2024</p>
             </div>
           </div>
 
@@ -199,16 +198,16 @@ export default function HomePage() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="flex items-center gap-2 px-2 py-1.5 rounded border border-[#e8e8e8] hover:border-[#1565a0] hover:bg-[#f0f7ff] transition-all group"
+                    className="flex items-center gap-2 px-2 py-1.5 rounded border border-[#1e2d3d] hover:border-[#4fb3d9] hover:bg-[#162030] transition-all group"
                   >
-                    <div className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0" style={{ backgroundColor: `${link.color}15` }}>
+                    <div className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0" style={{ backgroundColor: `${link.color}20` }}>
                       <Icon className="w-3 h-3" style={{ color: link.color }} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="text-[9px] font-bold text-[#333]">{link.label}</div>
-                      <div className="text-[7px] text-[#999]">{link.desc}</div>
+                      <div className="text-[9px] font-bold text-[#c0c8d0]">{link.label}</div>
+                      <div className="text-[7px] text-[#556677]">{link.desc}</div>
                     </div>
-                    <ArrowRight className="w-3 h-3 text-[#ccc] group-hover:text-[#1565a0] transition-colors flex-shrink-0" />
+                    <ArrowRight className="w-3 h-3 text-[#334455] group-hover:text-[#4fb3d9] transition-colors flex-shrink-0" />
                   </Link>
                 );
               })}
@@ -219,7 +218,7 @@ export default function HomePage() {
       </div>
 
       {/* ROW 3: Status bar */}
-      <div className="flex items-center justify-between px-2 py-0.5 bg-white border border-[#e0e0e0] rounded text-[8px] text-[#aaa]">
+      <div className="flex items-center justify-between px-2 py-0.5 bg-[#111827] border border-[#1e2d3d] rounded text-[8px] text-[#445566]">
         <span>Data: NOAA, IUCN Red List, GBIF, OBIS</span>
         <span>{species.length} species • 10 regions • 5 oceans</span>
         <span>Last updated: Feb 2026</span>

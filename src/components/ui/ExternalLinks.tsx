@@ -32,8 +32,8 @@ export function ExternalLinks({
     links.push({
       label: "Wikipedia",
       url: `https://en.wikipedia.org/wiki/${wikipediaSlug}`,
-      color: "#333",
-      bgColor: "#f5f5f5",
+      color: "#8899aa",
+      bgColor: "#1a2332",
     });
   }
 
@@ -41,8 +41,8 @@ export function ExternalLinks({
     links.push({
       label: "IUCN Red List",
       url: iucnUrl,
-      color: "#c62828",
-      bgColor: "#fef2f2",
+      color: "#ff6b6b",
+      bgColor: "#2a1015",
     });
   }
 
@@ -50,8 +50,8 @@ export function ExternalLinks({
     links.push({
       label: "GBIF",
       url: gbifUrl,
-      color: "#4caf50",
-      bgColor: "#f1f8e9",
+      color: "#66bb6a",
+      bgColor: "#0a2010",
     });
   }
 
@@ -59,8 +59,8 @@ export function ExternalLinks({
     links.push({
       label: "OBIS",
       url: obisUrl,
-      color: "#1565a0",
-      bgColor: "#e3f2fd",
+      color: "#4fb3d9",
+      bgColor: "#0a1a2a",
     });
   }
 
@@ -78,7 +78,7 @@ export function ExternalLinks({
           style={{
             background: link.bgColor,
             color: link.color,
-            border: `1px solid ${link.color}22`,
+            border: `1px solid ${link.color}30`,
             padding: compact ? "1px 4px" : "2px 6px",
             fontSize: compact ? "8px" : "9px",
             fontWeight: 700,

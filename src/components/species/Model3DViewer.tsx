@@ -43,28 +43,28 @@ export const Model3DViewer = memo(function Model3DViewer({
     : "";
 
   return (
-    <div className={`flex flex-col h-full ${isFullscreen ? "fixed inset-0 z-[9999] bg-white" : ""}`}>
+    <div className={`flex flex-col h-full ${isFullscreen ? "fixed inset-0 z-[9999] bg-[#0a0e1a]" : ""}`}>
       {/* Toolbar */}
-      <div className="flex items-center gap-1 px-2 py-1 bg-[#f8f9fa] border-b border-[#e0e0e0]">
+      <div className="flex items-center gap-1 px-2 py-1 bg-[#0f1520] border-b border-[#1e2d3d]">
         <div className="flex items-center gap-1 flex-1">
           {has3D && (
-            <span className="inline-flex items-center gap-1 text-[8px] font-bold uppercase tracking-wider text-[#1565a0] bg-[#e3f2fd] px-1.5 py-0.5 rounded">
+            <span className="inline-flex items-center gap-1 text-[8px] font-bold uppercase tracking-wider text-[#4fb3d9] bg-[#4fb3d920] px-1.5 py-0.5 rounded">
               <Box className="w-2.5 h-2.5" />
               3D Model
             </span>
           )}
           {!has3D && (
-            <span className="inline-flex items-center gap-1 text-[8px] font-bold uppercase tracking-wider text-[#666] bg-[#f0f0f0] px-1.5 py-0.5 rounded">
+            <span className="inline-flex items-center gap-1 text-[8px] font-bold uppercase tracking-wider text-[#667788] bg-[#1a2332] px-1.5 py-0.5 rounded">
               Specimen Photo
             </span>
           )}
-          <span className="text-[8px] text-[#999] ml-1">{speciesName}</span>
+          <span className="text-[8px] text-[#445566] ml-1">{speciesName}</span>
         </div>
         <div className="flex items-center gap-0.5">
           {anatomy && anatomy.length > 0 && (
             <button
               onClick={() => { setShowAnatomy(!showAnatomy); setSelectedPart(null); }}
-              className={`p-1 rounded transition-colors ${showAnatomy ? "bg-[#1565a0] text-white" : "bg-[#eee] text-[#666] hover:bg-[#ddd]"}`}
+              className={`p-1 rounded transition-colors ${showAnatomy ? "bg-[#1565a0] text-white" : "bg-[#1a2332] text-[#667788] hover:bg-[#2a3a4a]"}`}
               title={showAnatomy ? "Hide anatomy" : "Show anatomy"}
             >
               {showAnatomy ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
@@ -73,7 +73,7 @@ export const Model3DViewer = memo(function Model3DViewer({
           {has3D && (
             <button
               onClick={() => setIsFullscreen(!isFullscreen)}
-              className="p-1 rounded bg-[#eee] text-[#666] hover:bg-[#ddd] transition-colors"
+              className="p-1 rounded bg-[#1a2332] text-[#667788] hover:bg-[#2a3a4a] transition-colors"
               title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
             >
               <Maximize2 className="w-3 h-3" />
@@ -83,12 +83,12 @@ export const Model3DViewer = memo(function Model3DViewer({
       </div>
 
       {/* Viewer area */}
-      <div className="flex-1 min-h-0 relative bg-[#f0f2f5]">
+      <div className="flex-1 min-h-0 relative bg-[#0a0e1a]">
         {has3D ? (
           <>
             {!iframeLoaded && (
-              <div className="absolute inset-0 flex items-center justify-center bg-[#f0f2f5] z-10">
-                <Loader2 className="w-8 h-8 text-[#1565a0] animate-spin" />
+              <div className="absolute inset-0 flex items-center justify-center bg-[#0a0e1a] z-10">
+                <Loader2 className="w-8 h-8 text-[#4fb3d9] animate-spin" />
               </div>
             )}
             <iframe
@@ -111,13 +111,13 @@ export const Model3DViewer = memo(function Model3DViewer({
                   className="w-full h-full object-contain"
                 />
                 {fallbackImageCredit && (
-                  <span className="absolute bottom-1 left-1 text-[7px] text-white bg-black/50 px-1 py-0.5 rounded">
+                  <span className="absolute bottom-1 left-1 text-[7px] text-white bg-black/60 px-1 py-0.5 rounded">
                     {fallbackImageCredit}
                   </span>
                 )}
               </div>
             ) : (
-              <div className="text-center text-[#999]">
+              <div className="text-center text-[#445566]">
                 <Box className="w-8 h-8 mx-auto mb-1 opacity-30" />
                 <p className="text-[10px]">No specimen available</p>
               </div>
@@ -125,10 +125,9 @@ export const Model3DViewer = memo(function Model3DViewer({
           </div>
         )}
 
-        {/* 3D hint overlay */}
         {has3D && (
           <div className="absolute bottom-2 left-2 pointer-events-none">
-            <div className="inline-flex items-center gap-1 text-[7px] text-[#888] bg-white/80 backdrop-blur-sm px-1.5 py-0.5 rounded border border-[#ddd]">
+            <div className="inline-flex items-center gap-1 text-[7px] text-[#667788] bg-[#111827]/90 backdrop-blur-sm px-1.5 py-0.5 rounded border border-[#2a3a4a]">
               <RotateCcw className="w-2.5 h-2.5" />
               Drag to rotate · Scroll to zoom
             </div>
@@ -138,11 +137,11 @@ export const Model3DViewer = memo(function Model3DViewer({
 
       {/* Anatomy panel */}
       {showAnatomy && anatomy && anatomy.length > 0 && (
-        <div className="border-t border-[#e0e0e0] bg-white">
-          <div className="px-2 py-1 flex items-center gap-1 border-b border-[#f0f0f0]">
-            <Info className="w-3 h-3 text-[#1565a0]" />
-            <span className="text-[8px] font-bold uppercase tracking-wider text-[#888]">Body Anatomy</span>
-            <span className="text-[7px] text-[#bbb] ml-auto">{anatomy.length} features</span>
+        <div className="border-t border-[#1e2d3d] bg-[#111827]">
+          <div className="px-2 py-1 flex items-center gap-1 border-b border-[#1e2d3d]">
+            <Info className="w-3 h-3 text-[#4fb3d9]" />
+            <span className="text-[8px] font-bold uppercase tracking-wider text-[#667788]">Body Anatomy</span>
+            <span className="text-[7px] text-[#445566] ml-auto">{anatomy.length} features</span>
           </div>
           <div className="px-2 py-1.5 grid grid-cols-2 gap-x-3 gap-y-1 max-h-[120px] overflow-y-auto">
             {anatomy.map((part, idx) => (
@@ -151,24 +150,24 @@ export const Model3DViewer = memo(function Model3DViewer({
                 onClick={() => setSelectedPart(selectedPart?.label === part.label ? null : part)}
                 className={`text-left rounded px-1.5 py-1 transition-all border ${
                   selectedPart?.label === part.label
-                    ? "border-[#1565a0] bg-[#e3f2fd]"
-                    : "border-transparent hover:bg-[#f5f7fa]"
+                    ? "border-[#4fb3d9] bg-[#4fb3d915]"
+                    : "border-transparent hover:bg-[#1a2332]"
                 }`}
               >
                 <div className="flex items-start gap-1.5">
                   <span
                     className="w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-bold flex-shrink-0 mt-0.5"
                     style={{
-                      backgroundColor: selectedPart?.label === part.label ? "#1565a0" : "#e8ecf0",
-                      color: selectedPart?.label === part.label ? "white" : "#666",
+                      backgroundColor: selectedPart?.label === part.label ? "#4fb3d9" : "#1a2332",
+                      color: selectedPart?.label === part.label ? "white" : "#667788",
                     }}
                   >
                     {idx + 1}
                   </span>
                   <div className="min-w-0">
-                    <div className="text-[9px] font-bold text-[#333] leading-tight">{part.label}</div>
+                    <div className="text-[9px] font-bold text-[#c0c8d0] leading-tight">{part.label}</div>
                     {selectedPart?.label === part.label && (
-                      <div className="text-[8px] text-[#666] leading-snug mt-0.5">{part.description}</div>
+                      <div className="text-[8px] text-[#8899aa] leading-snug mt-0.5">{part.description}</div>
                     )}
                   </div>
                 </div>

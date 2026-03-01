@@ -53,9 +53,9 @@ const TYPES: SpeciesType[] = [
 ];
 
 function TrendIcon({ trend }: { trend: string }) {
-  if (trend === "increasing") return <span className="text-green-600">↑</span>;
-  if (trend === "decreasing") return <span className="text-red-600">↓</span>;
-  return <span className="text-gray-400">→</span>;
+  if (trend === "increasing") return <span className="text-[#4fb3d9]">↑</span>;
+  if (trend === "decreasing") return <span className="text-[#ff6b6b]">↓</span>;
+  return <span className="text-[#556677]">→</span>;
 }
 
 export default function BiodiversityPage() {
@@ -140,16 +140,16 @@ export default function BiodiversityPage() {
     >
       {/* LEFT SIDEBAR */}
       <div className="panel w-[280px] shrink-0 flex flex-col">
-        <div className="panel-header" style={{ borderLeft: "3px solid #1565a0" }}>
+        <div className="panel-header" style={{ borderLeft: "3px solid #4fb3d9" }}>
           <Filter className="panel-icon shrink-0" size={12} />
           <span>Filters</span>
-          <span className="ml-auto text-[8px] font-normal normal-case text-[#aaa] tracking-normal">{species.length} total</span>
+          <span className="ml-auto text-[8px] font-normal normal-case text-[#445566] tracking-normal">{species.length} total</span>
         </div>
         <div className="panel-body flex flex-col gap-2 overflow-y-auto">
           {/* Search */}
           <div className="relative shrink-0">
             <Search
-              className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400"
+              className="absolute left-2 top-1/2 -translate-y-1/2 text-[#445566]"
               size={12}
             />
             <input
@@ -157,13 +157,13 @@ export default function BiodiversityPage() {
               placeholder="Search species..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-6 pl-7 pr-2 text-[10px] border border-[#ddd] rounded focus:outline-none focus:ring-1 focus:ring-ocean-500 focus:border-ocean-500"
+              className="w-full h-6 pl-7 pr-2 text-[10px] border border-[#2a3a4a] rounded bg-[#0f1520] text-[#c0c8d0] placeholder-[#445566] focus:outline-none focus:ring-1 focus:ring-[#4fb3d9] focus:border-[#4fb3d9]"
             />
           </div>
 
           {/* STATUS */}
           <div>
-            <div className="text-[9px] font-bold uppercase text-gray-500 mb-1">
+            <div className="text-[9px] font-bold uppercase text-[#556677] mb-1">
               Status
             </div>
             <div className="flex flex-wrap gap-1">
@@ -177,7 +177,7 @@ export default function BiodiversityPage() {
                     className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase border transition-colors ${
                       active
                         ? "text-white border-transparent"
-                        : "bg-white border-[#ddd] text-gray-600 hover:border-gray-400"
+                        : "bg-[#0f1520] border-[#2a3a4a] text-[#8899aa] hover:border-[#4a5a6a]"
                     }`}
                     style={
                       active
@@ -194,7 +194,7 @@ export default function BiodiversityPage() {
 
           {/* TYPE */}
           <div>
-            <div className="text-[9px] font-bold uppercase text-gray-500 mb-1">
+            <div className="text-[9px] font-bold uppercase text-[#556677] mb-1">
               Type
             </div>
             <div className="flex flex-wrap gap-1">
@@ -206,8 +206,8 @@ export default function BiodiversityPage() {
                     onClick={() => toggleType(t)}
                     className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase border transition-colors ${
                       active
-                        ? "bg-ocean-700 text-white border-transparent"
-                        : "bg-white border-[#ddd] text-gray-600 hover:border-gray-400"
+                        ? "bg-[#1565a0] text-white border-transparent"
+                        : "bg-[#0f1520] border-[#2a3a4a] text-[#8899aa] hover:border-[#4a5a6a]"
                     }`}
                   >
                     {SPECIES_TYPE_LABELS[t]}
@@ -219,7 +219,7 @@ export default function BiodiversityPage() {
 
           {/* REGION */}
           <div>
-            <div className="text-[9px] font-bold uppercase text-gray-500 mb-1">
+            <div className="text-[9px] font-bold uppercase text-[#556677] mb-1">
               Region
             </div>
             <div className="flex flex-wrap gap-1 max-h-16 overflow-y-auto">
@@ -231,8 +231,8 @@ export default function BiodiversityPage() {
                     onClick={() => toggleRegion(r)}
                     className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase border transition-colors truncate max-w-full ${
                       active
-                        ? "bg-ocean-700 text-white border-transparent"
-                        : "bg-white border-[#ddd] text-gray-600 hover:border-gray-400"
+                        ? "bg-[#1565a0] text-white border-transparent"
+                        : "bg-[#0f1520] border-[#2a3a4a] text-[#8899aa] hover:border-[#4a5a6a]"
                     }`}
                   >
                     {r}
@@ -244,7 +244,7 @@ export default function BiodiversityPage() {
 
           {/* SORT */}
           <div>
-            <div className="text-[9px] font-bold uppercase text-gray-500 mb-1">
+            <div className="text-[9px] font-bold uppercase text-[#556677] mb-1">
               Sort
             </div>
             <div className="flex gap-1">
@@ -252,8 +252,8 @@ export default function BiodiversityPage() {
                 onClick={() => setSortMode("a-z")}
                 className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase border transition-colors ${
                   sortMode === "a-z"
-                    ? "bg-ocean-700 text-white border-transparent"
-                    : "bg-white border-[#ddd] text-gray-600 hover:border-gray-400"
+                    ? "bg-[#1565a0] text-white border-transparent"
+                    : "bg-[#0f1520] border-[#2a3a4a] text-[#8899aa] hover:border-[#4a5a6a]"
                 }`}
               >
                 A-Z
@@ -262,8 +262,8 @@ export default function BiodiversityPage() {
                 onClick={() => setSortMode("endangered")}
                 className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase border transition-colors ${
                   sortMode === "endangered"
-                    ? "bg-ocean-700 text-white border-transparent"
-                    : "bg-white border-[#ddd] text-gray-600 hover:border-gray-400"
+                    ? "bg-[#1565a0] text-white border-transparent"
+                    : "bg-[#0f1520] border-[#2a3a4a] text-[#8899aa] hover:border-[#4a5a6a]"
                 }`}
               >
                 Endangered
@@ -272,9 +272,9 @@ export default function BiodiversityPage() {
           </div>
 
           {/* Stats */}
-          <div className="mt-auto pt-2 border-t border-[#eee] text-[10px] text-gray-600">
+          <div className="mt-auto pt-2 border-t border-[#1e2d3d] text-[10px] text-[#8899aa]">
             {filteredSpecies.length} of {species.length} species
-            <div className="text-[9px] text-gray-500 space-y-0.5 mt-1">
+            <div className="text-[9px] text-[#667788] space-y-0.5 mt-1">
               {STATUS_CODES.map(code => {
                 const count = filteredSpecies.filter(s => s.conservationStatus === code).length;
                 if (count === 0) return null;
@@ -293,10 +293,10 @@ export default function BiodiversityPage() {
 
       {/* MAIN TABLE */}
       <div className="panel flex-1 flex flex-col min-w-0">
-        <div className="panel-header" style={{ borderLeft: "3px solid #1565a0" }}>
+        <div className="panel-header" style={{ borderLeft: "3px solid #4fb3d9" }}>
           <Fish className="panel-icon shrink-0" size={12} />
           <span>Marine Species</span>
-          <span className="ml-auto text-[8px] font-normal normal-case text-[#aaa] tracking-normal">{filteredSpecies.length} shown</span>
+          <span className="ml-auto text-[8px] font-normal normal-case text-[#445566] tracking-normal">{filteredSpecies.length} shown</span>
         </div>
         <div className="panel-body overflow-y-auto p-0">
           <table className="data-table">
@@ -328,7 +328,7 @@ export default function BiodiversityPage() {
                   }}
                 >
                   <td className="w-10 p-0.5">
-                    <div className="w-9 h-9 rounded overflow-hidden bg-[#f0f0f0] flex-shrink-0 border border-[#e0e0e0]">
+                    <div className="w-9 h-9 rounded overflow-hidden bg-[#1a2332] flex-shrink-0 border border-[#2a3a4a]">
                       {s.images[0] ? (
                         <img
                           src={s.images[0].url}
@@ -337,16 +337,16 @@ export default function BiodiversityPage() {
                           loading="lazy"
                         />
                       ) : (
-                        <div className="w-9 h-9 flex items-center justify-center text-[#ccc] text-xs">?</div>
+                        <div className="w-9 h-9 flex items-center justify-center text-[#334455] text-xs">?</div>
                       )}
                     </div>
                   </td>
                   <td>
-                    <span className="font-bold text-[11px] text-gray-900 block truncate">
+                    <span className="font-bold text-[11px] text-[#e0e8f0] block truncate">
                       {s.commonName}
                     </span>
                   </td>
-                  <td className="text-[10px] text-gray-500 italic truncate max-w-[140px]">
+                  <td className="text-[10px] text-[#667788] italic truncate max-w-[140px]">
                     {s.scientificName}
                   </td>
                   <td>
@@ -360,7 +360,7 @@ export default function BiodiversityPage() {
                   <td>
                     <span className="pill tag">{SPECIES_TYPE_LABELS[s.type]}</span>
                   </td>
-                  <td className="text-[10px] text-gray-600 truncate max-w-[120px]">
+                  <td className="text-[10px] text-[#667788] truncate max-w-[120px]">
                     {s.oceanRegions.join(", ")}
                   </td>
                   <td>
@@ -369,12 +369,12 @@ export default function BiodiversityPage() {
                         data={s.populationData.map(d => d.estimate)}
                         width={50}
                         height={14}
-                        strokeColor={s.populationTrend === "decreasing" ? "#c62828" : s.populationTrend === "increasing" ? "#1565a0" : "#888"}
+                        strokeColor={s.populationTrend === "decreasing" ? "#ff6b6b" : s.populationTrend === "increasing" ? "#4fb3d9" : "#667788"}
                       />
                       <TrendIcon trend={s.populationTrend} />
                     </div>
                   </td>
-                  <td className="text-[9px] text-[#555]">{s.estimatedPopulation}</td>
+                  <td className="text-[9px] text-[#8899aa]">{s.estimatedPopulation}</td>
                 </tr>
               ))}
             </tbody>

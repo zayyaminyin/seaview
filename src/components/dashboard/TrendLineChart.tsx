@@ -19,9 +19,9 @@ type TrendLineChartProps = {
   className?: string;
 };
 
-const TOOLTIP_BORDER = "#e0e0e0";
-const AXIS_COLOR = "#666";
-const GRID_COLOR = "#e5e5e5";
+const TOOLTIP_BORDER = "#2a3a4a";
+const AXIS_COLOR = "#556677";
+const GRID_COLOR = "#1e2d3d";
 
 function CustomTooltip({
   active,
@@ -40,10 +40,10 @@ function CustomTooltip({
 
   return (
     <div
-      className="px-3 py-2 rounded border bg-white shadow-sm min-w-[120px]"
+      className="px-3 py-2 rounded border bg-[#111827] shadow-lg min-w-[120px]"
       style={{ borderColor: TOOLTIP_BORDER }}
     >
-      <div className="text-[#666] text-xs font-medium mb-2">{label}</div>
+      <div className="text-[#667788] text-xs font-medium mb-2">{label}</div>
       <div className="space-y-1">
         {payload.map((entry, i) => {
           const dk = String(entry.dataKey ?? "");
@@ -53,7 +53,7 @@ function CustomTooltip({
                 className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                 style={{ backgroundColor: entry.color }}
               />
-              <span className="text-[#1a1a1a] text-xs">
+              <span className="text-[#e0e8f0] text-xs">
                 {labelMap[dk] ?? dk}: {(entry.value ?? 0).toLocaleString()}
               </span>
             </div>
@@ -126,7 +126,7 @@ export function TrendLineChart({
             formatter={(value, entry) => {
               const dk = dataKeys.find((k) => k.label === value || k.key === value);
               return (
-                <span className="text-[#666] text-[10px]">
+                <span className="text-[#667788] text-[10px]">
                   <span
                     className="inline-block w-2.5 h-2.5 rounded-full mr-1.5 align-middle"
                     style={{
@@ -134,7 +134,7 @@ export function TrendLineChart({
                         dk?.color ??
                         (entry as { payload?: { color: string } }).payload
                           ?.color ??
-                        "#999",
+                        "#556677",
                     }}
                   />
                   {dk?.label ?? value}

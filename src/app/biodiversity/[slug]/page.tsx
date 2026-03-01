@@ -27,10 +27,10 @@ const typeLabels: Record<SpeciesType, string> = {
 };
 
 const trendConfig = {
-  increasing: { Icon: TrendingUp, label: "↑ Increasing", color: "text-[#1565a0]" },
-  decreasing: { Icon: TrendingDown, label: "↓ Decreasing", color: "text-[#c62828]" },
-  stable: { Icon: Minus, label: "— Stable", color: "text-[#607d8b]" },
-  unknown: { Icon: Minus, label: "? Unknown", color: "text-[#666]" },
+  increasing: { Icon: TrendingUp, label: "↑ Increasing", color: "text-[#4fb3d9]" },
+  decreasing: { Icon: TrendingDown, label: "↓ Decreasing", color: "text-[#ff6b6b]" },
+  stable: { Icon: Minus, label: "— Stable", color: "text-[#667788]" },
+  unknown: { Icon: Minus, label: "? Unknown", color: "text-[#556677]" },
 };
 
 const taxonomyMap: Record<string, { kingdom: string; phylum: string; order?: string }> = {
@@ -74,7 +74,7 @@ export default async function SpeciesDetailPage({
 
   return (
     <div
-      className="grid gap-1 p-1 bg-[#f4f5f7]"
+      className="grid gap-1 p-1"
       style={{
         height: "calc(100vh - 40px)",
         overflow: "hidden",
@@ -84,28 +84,28 @@ export default async function SpeciesDetailPage({
     >
       {/* TOP BAR */}
       <div
-        className="col-span-4 flex items-center justify-between px-2 bg-white border border-[#ddd] rounded"
+        className="col-span-4 flex items-center justify-between px-2 bg-[#111827] border border-[#1e2d3d] rounded"
         style={{ minHeight: 32 }}
       >
         <div className="flex items-center gap-1.5 min-w-0">
           <Link
             href="/biodiversity"
-            className="text-[10px] text-[#666] hover:text-[#1565a0] whitespace-nowrap"
+            className="text-[10px] text-[#667788] hover:text-[#4fb3d9] whitespace-nowrap"
           >
             ← Species
           </Link>
-          <ChevronRight className="w-3 h-3 text-[#999] flex-shrink-0" />
-          <span className="font-bold text-[14px] text-black truncate">
+          <ChevronRight className="w-3 h-3 text-[#445566] flex-shrink-0" />
+          <span className="font-bold text-[14px] text-[#e0e8f0] truncate">
             {speciesData.commonName}
           </span>
-          <span className="text-[11px] italic text-[#666] truncate hidden sm:inline">
+          <span className="text-[11px] italic text-[#667788] truncate hidden sm:inline">
             {speciesData.scientificName}
           </span>
         </div>
         <div className="flex items-center gap-2 flex-shrink-0">
           <ConservationBadge status={speciesData.conservationStatus} size="sm" />
           <span className={`pill ${trendCfg.color}`}>{trendCfg.label}</span>
-          <span className="pill bg-[#f0f0f0] text-[#555]">
+          <span className="pill bg-[#1a2332] text-[#8899aa]">
             {typeLabels[speciesData.type]}
           </span>
           <ExternalLinks
@@ -159,18 +159,18 @@ export default async function SpeciesDetailPage({
             <span className="kv-label">Length</span>
             <span className="kv-value">{speciesData.length}</span>
           </div>
-          <p className="text-[9px] font-bold uppercase text-[#777] mt-2 mb-1">Description</p>
-          <p className="text-[11px] text-[#333] leading-tight line-clamp-4">
+          <p className="text-[9px] font-bold uppercase text-[#556677] mt-2 mb-1">Description</p>
+          <p className="text-[11px] text-[#a0b0c0] leading-tight line-clamp-4">
             {speciesData.description}
           </p>
           <div className="mt-2 flex items-center gap-2">
-            <span className="text-[8px] font-bold uppercase text-[#888]">25yr Trend</span>
+            <span className="text-[8px] font-bold uppercase text-[#556677]">25yr Trend</span>
             <Sparkline
               data={speciesData.populationData.map((d) => d.estimate)}
               width={100}
               height={20}
-              strokeColor={speciesData.populationTrend === "decreasing" ? "#c62828" : speciesData.populationTrend === "increasing" ? "#1565a0" : "#607d8b"}
-              fillColor={speciesData.populationTrend === "decreasing" ? "#c62828" : speciesData.populationTrend === "increasing" ? "#1565a0" : "#607d8b"}
+              strokeColor={speciesData.populationTrend === "decreasing" ? "#ff6b6b" : speciesData.populationTrend === "increasing" ? "#4fb3d9" : "#667788"}
+              fillColor={speciesData.populationTrend === "decreasing" ? "#ff6b6b" : speciesData.populationTrend === "increasing" ? "#4fb3d9" : "#667788"}
             />
           </div>
         </div>
@@ -181,12 +181,12 @@ export default async function SpeciesDetailPage({
         <div className="panel-header">⚠ CONSERVATION STATUS</div>
         <div className="panel-body">
           <ConservationBadge status={speciesData.conservationStatus} size="md" className="mb-2" />
-          <p className="text-[11px] text-[#555] leading-tight line-clamp-2 mb-2">
+          <p className="text-[11px] text-[#8899aa] leading-tight line-clamp-2 mb-2">
             {statusInfo.description}
           </p>
-          <hr className="border-t border-[#e0e0e0] my-2" />
+          <hr className="border-t border-[#1e2d3d] my-2" />
           <ThreatMeter status={speciesData.conservationStatus} threats={speciesData.threats} className="mb-2" />
-          <p className="text-[9px] font-bold uppercase text-[#777] mb-1">Threats</p>
+          <p className="text-[9px] font-bold uppercase text-[#556677] mb-1">Threats</p>
           <div className="flex flex-wrap gap-1">
             {speciesData.threats.map((threat) => (
               <span key={threat} className="tag tag-danger">
@@ -215,7 +215,7 @@ export default async function SpeciesDetailPage({
             species={speciesData.scientificName}
             className="mb-2"
           />
-          <ol className="space-y-1 list-decimal list-inside text-[10px] text-[#333] leading-tight">
+          <ol className="space-y-1 list-decimal list-inside text-[10px] text-[#a0b0c0] leading-tight">
             {speciesData.funFacts.map((fact, i) => (
               <li key={i}>{fact}</li>
             ))}
@@ -224,9 +224,9 @@ export default async function SpeciesDetailPage({
       </div>
 
       {/* ROW 2: Multi-Visual Dashboard | Distribution | Related */}
-      {/* Panel 5: Species Analytics (replaces single pop chart) */}
-      <div className="panel overflow-hidden" style={{ gridColumn: "span 2" }}>
-        <div className="panel-header">📊 ANALYTICS</div>
+      {/* Panel 5: Species Analytics — dark Bloomberg-style dashboard */}
+      <div className="panel overflow-hidden" style={{ gridColumn: "span 2", background: "#0f1729", borderColor: "#2a3a4a" }}>
+        <div className="panel-header" style={{ background: "linear-gradient(180deg, #141e30, #0f1729)", borderColor: "#2a3a4a", color: "#667788" }}>📊 ANALYTICS</div>
         <div className="panel-body-flush flex-1 min-h-0">
           <SpeciesVisuals species={speciesData} relatedSpecies={relatedSpecies} />
         </div>
@@ -242,20 +242,20 @@ export default async function SpeciesDetailPage({
             commonName={speciesData.commonName}
             className="flex-1 min-h-[180px] w-full"
           />
-          <div className="flex flex-wrap gap-1 px-2 py-1.5 border-t border-[#e0e0e0] bg-[#fafafa]">
+          <div className="flex flex-wrap gap-1 px-2 py-1.5 border-t border-[#1e2d3d] bg-[#0f1520]">
             {speciesData.oceanRegions.map((region) => (
-              <span key={region} className="pill text-[9px] bg-[#e8e8e8] text-[#555]">
+              <span key={region} className="pill text-[9px] bg-[#1a2332] text-[#8899aa]">
                 {region}
               </span>
             ))}
-            <span className="text-[9px] font-mono text-[#666] ml-auto">
+            <span className="text-[9px] font-mono text-[#556677] ml-auto">
               {latStr} {lngStr}
             </span>
           </div>
         </div>
       </div>
 
-      {/* Panel 7: Related Species — vertical list */}
+      {/* Panel 7: Related Species */}
       <div className="panel flex flex-col min-h-0" style={{ gridColumn: "span 1" }}>
         <div className="panel-header">RELATED SPECIES</div>
         <div className="panel-body overflow-y-auto flex flex-col gap-1.5 p-1.5">
@@ -264,7 +264,7 @@ export default async function SpeciesDetailPage({
               key={s.slug}
               href={`/biodiversity/${s.slug}`}
             >
-              <div className="flex items-center gap-2 border border-[#e0e0e0] rounded p-1.5 bg-white hover:border-[#1565a0] hover:bg-[#f8fbff] transition-colors">
+              <div className="flex items-center gap-2 border border-[#1e2d3d] rounded p-1.5 bg-[#0f1520] hover:border-[#4fb3d9] hover:bg-[#162030] transition-colors">
                 <div className="relative w-10 h-10 flex-shrink-0 overflow-hidden rounded">
                   <img
                     src={s.images[0]?.url ?? ""}
@@ -274,10 +274,10 @@ export default async function SpeciesDetailPage({
                   />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[10px] font-bold text-black truncate">
+                  <p className="text-[10px] font-bold text-[#e0e8f0] truncate">
                     {s.commonName}
                   </p>
-                  <p className="text-[8px] italic text-[#999] truncate">
+                  <p className="text-[8px] italic text-[#556677] truncate">
                     {s.scientificName}
                   </p>
                 </div>

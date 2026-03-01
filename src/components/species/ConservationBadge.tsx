@@ -45,7 +45,7 @@ export function ConservationBadge({
     >
       <span style={{ color: borderColor }}>{status}</span>
       {showLabel && (
-        <span className="ml-1 font-normal text-[#666]">{info.label}</span>
+        <span className="ml-1 font-normal text-[#8899aa]">{info.label}</span>
       )}
     </span>
   );

@@ -18,29 +18,28 @@ type PopulationChartProps = {
   data: { year: number; estimate: number }[];
   trend: PopulationTrend;
   className?: string;
-  /** When true, hides title and fills container height for cockpit/panel layouts */
   compact?: boolean;
 };
 
 const trendColors = {
   increasing: {
-    stroke: "#1565a0",
-    fill: "#1565a020",
+    stroke: "#4fb3d9",
+    fill: "#4fb3d920",
     fillGradient: "url(#blueGradient)",
   },
   stable: {
-    stroke: "#607d8b",
-    fill: "#607d8b20",
+    stroke: "#667788",
+    fill: "#66778820",
     fillGradient: "url(#grayGradient)",
   },
   decreasing: {
-    stroke: "#e65100",
-    fill: "#e6510020",
+    stroke: "#ff6b6b",
+    fill: "#ff6b6b20",
     fillGradient: "url(#orangeGradient)",
   },
   unknown: {
-    stroke: "#9e9e9e",
-    fill: "#9e9e9e20",
+    stroke: "#556677",
+    fill: "#55667720",
     fillGradient: "url(#slateGradient)",
   },
 };
@@ -55,13 +54,13 @@ const CustomTooltip = memo(function CustomTooltip({
   return (
     <div
       className={cn(
-        "rounded border border-[#e0e0e0] bg-white px-3 py-2 shadow-sm"
+        "rounded border border-[#2a3a4a] bg-[#111827] px-3 py-2 shadow-lg"
       )}
     >
-      <p className="text-[10px] font-semibold uppercase tracking-wide text-[#666]">
+      <p className="text-[10px] font-semibold uppercase tracking-wide text-[#667788]">
         {label}
       </p>
-      <p className="mt-0.5 text-sm font-bold text-black">
+      <p className="mt-0.5 text-sm font-bold text-[#e0e8f0]">
         {payload[0].value?.toLocaleString()} individuals
       </p>
     </div>
@@ -95,8 +94,8 @@ export const PopulationChart = memo(function PopulationChart({
                 x2="0"
                 y2="1"
               >
-                <stop offset="0%" stopColor="#1565a0" stopOpacity={0.3} />
-                <stop offset="100%" stopColor="#1565a0" stopOpacity={0.05} />
+                <stop offset="0%" stopColor="#4fb3d9" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="#4fb3d9" stopOpacity={0.05} />
               </linearGradient>
               <linearGradient
                 id="grayGradient"
@@ -105,8 +104,8 @@ export const PopulationChart = memo(function PopulationChart({
                 x2="0"
                 y2="1"
               >
-                <stop offset="0%" stopColor="#607d8b" stopOpacity={0.3} />
-                <stop offset="100%" stopColor="#607d8b" stopOpacity={0.05} />
+                <stop offset="0%" stopColor="#667788" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="#667788" stopOpacity={0.05} />
               </linearGradient>
               <linearGradient
                 id="orangeGradient"
@@ -115,8 +114,8 @@ export const PopulationChart = memo(function PopulationChart({
                 x2="0"
                 y2="1"
               >
-                <stop offset="0%" stopColor="#e65100" stopOpacity={0.3} />
-                <stop offset="100%" stopColor="#e65100" stopOpacity={0.05} />
+                <stop offset="0%" stopColor="#ff6b6b" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="#ff6b6b" stopOpacity={0.05} />
               </linearGradient>
               <linearGradient
                 id="slateGradient"
@@ -125,35 +124,35 @@ export const PopulationChart = memo(function PopulationChart({
                 x2="0"
                 y2="1"
               >
-                <stop offset="0%" stopColor="#9e9e9e" stopOpacity={0.3} />
-                <stop offset="100%" stopColor="#9e9e9e" stopOpacity={0.05} />
+                <stop offset="0%" stopColor="#556677" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="#556677" stopOpacity={0.05} />
               </linearGradient>
             </defs>
 
             <XAxis
               dataKey="year"
-              stroke="#9e9e9e"
+              stroke="#334455"
               fontSize={10}
               tickLine={false}
               axisLine={true}
-              tick={{ fill: "#666" }}
+              tick={{ fill: "#556677" }}
             />
             <YAxis
-              stroke="#9e9e9e"
+              stroke="#334455"
               fontSize={10}
               tickLine={false}
               axisLine={true}
-              tick={{ fill: "#666" }}
+              tick={{ fill: "#556677" }}
               tickFormatter={formatYAxisTick}
             />
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="#e0e0e0"
+              stroke="#1e2d3d"
               vertical={false}
             />
             <Tooltip
               content={<CustomTooltip />}
-              cursor={{ stroke: "#e0e0e0", strokeWidth: 1 }}
+              cursor={{ stroke: "#2a3a4a", strokeWidth: 1 }}
             />
             <Area
               type="monotone"
@@ -178,11 +177,11 @@ export const PopulationChart = memo(function PopulationChart({
   return (
     <div
       className={cn(
-        "rounded-lg border border-[#e0e0e0] bg-white p-4",
+        "rounded-lg border border-[#1e2d3d] bg-[#111827] p-4",
         className
       )}
     >
-      <h3 className="mb-4 text-[10px] font-bold uppercase tracking-wide text-[#666]">
+      <h3 className="mb-4 text-[10px] font-bold uppercase tracking-wide text-[#667788]">
         Population Trend
       </h3>
       {chartContent}

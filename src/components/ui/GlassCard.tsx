@@ -29,8 +29,8 @@ export function GlassCard({
   return (
     <MotionComponent
       className={cn(
-        "rounded-lg border border-[#e0e0e0] bg-white transition-all duration-300",
-        hover && "cursor-pointer hover:border-ocean-700/40 hover:shadow-sm",
+        "rounded-lg border border-[#1e2d3d] bg-[#111827] transition-all duration-300",
+        hover && "cursor-pointer hover:border-[#4fb3d9]/40 hover:shadow-lg hover:shadow-black/20",
         className
       )}
       whileHover={

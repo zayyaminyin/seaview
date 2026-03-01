@@ -31,17 +31,17 @@ function CustomTooltip({
 
   return (
     <div
-      className="px-3 py-2 rounded border bg-white shadow-sm min-w-[140px]"
-      style={{ borderColor: "#ddd" }}
+      className="px-3 py-2 rounded border bg-[#111827] shadow-lg min-w-[140px]"
+      style={{ borderColor: "#2a3a4a" }}
     >
       <div className="flex items-center gap-2">
         <span
           className="w-2 h-2 rounded-full flex-shrink-0"
           style={{ backgroundColor: item.color }}
         />
-        <span className="text-[#1a1a1a] font-medium text-xs">{item.status}</span>
+        <span className="text-[#e0e8f0] font-medium text-xs">{item.status}</span>
       </div>
-      <div className="text-[#666] text-[11px] mt-1">
+      <div className="text-[#667788] text-[11px] mt-1">
         {item.count.toLocaleString()} species ({percentage}%)
       </div>
     </div>
@@ -77,13 +77,13 @@ export function StatusDonutChart({ data, className }: StatusDonutChartProps) {
             verticalAlign="bottom"
             wrapperStyle={{ paddingTop: 8 }}
             formatter={(value, entry) => (
-              <span className="text-[#666] text-[10px]">
+              <span className="text-[#667788] text-[10px]">
                 <span
                   className="inline-block w-2 h-2 rounded-full mr-1.5 align-middle"
                   style={{
                     backgroundColor:
                       (entry as { payload?: { color: string } }).payload
-                        ?.color ?? "#999",
+                        ?.color ?? "#556677",
                   }}
                 />
                 {value}
@@ -93,7 +93,7 @@ export function StatusDonutChart({ data, className }: StatusDonutChartProps) {
         </PieChart>
       </ResponsiveContainer>
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <span className="text-[#1a1a1a] font-bold text-sm">
+        <span className="text-[#e0e8f0] font-bold text-sm">
           {total.toLocaleString()}
         </span>
       </div>

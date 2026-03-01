@@ -20,15 +20,15 @@ type StatCardProps = {
 const trendConfig = {
   up: {
     icon: TrendingUp,
-    color: "text-emerald-600",
+    color: "text-emerald-400",
   },
   down: {
     icon: TrendingDown,
-    color: "text-red-600",
+    color: "text-red-400",
   },
   stable: {
     icon: Minus,
-    color: "text-[#999]",
+    color: "text-[#667788]",
   },
 };
 
@@ -51,20 +51,20 @@ export function StatCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
       className={cn(
-        "bg-white rounded-lg p-4 border border-[#e0e0e0] relative",
+        "bg-[#111827] rounded-lg p-4 border border-[#1e2d3d] relative",
         className
       )}
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-[#888] mb-1">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-[#556677] mb-1">
             {title}
           </p>
           <AnimatedCounter
             value={value}
             prefix={prefix}
             suffix={suffix}
-            className="text-xl font-bold text-[#1a1a1a] tabular-nums"
+            className="text-xl font-bold text-[#e0e8f0] tabular-nums"
           />
           <div className="flex items-center gap-1 mt-2">
             <TrendIcon className={cn("w-3 h-3", config.color)} />
@@ -74,7 +74,7 @@ export function StatCard({
           </div>
         </div>
         <div className="flex-shrink-0">
-          <Icon className="w-4 h-4 text-[#999]" />
+          <Icon className="w-4 h-4 text-[#445566]" />
         </div>
       </div>
     </motion.div>

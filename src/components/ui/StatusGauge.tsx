@@ -30,7 +30,7 @@ export function StatusGauge({
         <path
           d={`M ${cx - radius} ${cy} A ${radius} ${radius} 0 0 1 ${cx + radius} ${cy}`}
           fill="none"
-          stroke="#e5e5e5"
+          stroke="#1e2d3d"
           strokeWidth={5}
           strokeLinecap="round"
         />
@@ -46,11 +46,11 @@ export function StatusGauge({
           style={{ transition: "stroke-dashoffset 0.8s ease-out" }}
         />
         {/* Value text */}
-        <text x={cx} y={cy - 4} textAnchor="middle" fontSize="14" fontWeight="700" fill="#1a1a1a">
+        <text x={cx} y={cy - 4} textAnchor="middle" fontSize="14" fontWeight="700" fill="#e0e8f0">
           {value.toFixed(1)}{unit}
         </text>
       </svg>
-      <span className="text-[8px] font-bold uppercase tracking-wide text-[#888] -mt-1">{label}</span>
+      <span className="text-[8px] font-bold uppercase tracking-wide text-[#667788] -mt-1">{label}</span>
     </div>
   );
 }

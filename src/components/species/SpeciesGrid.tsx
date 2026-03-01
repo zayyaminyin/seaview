@@ -41,12 +41,12 @@ export const SpeciesGrid = memo(function SpeciesGrid({ species, className }: Spe
         animate={{ opacity: 1 }}
         className={cn(
           "flex flex-col items-center justify-center py-12 px-6",
-          "rounded-lg border border-[#e0e0e0] bg-white",
+          "rounded-lg border border-[#1e2d3d] bg-[#111827]",
           className
         )}
       >
-        <Fish className="mb-3 h-10 w-10 text-[#999]" strokeWidth={1.5} />
-        <p className="text-sm font-medium text-[#666]">No species found</p>
+        <Fish className="mb-3 h-10 w-10 text-[#334455]" strokeWidth={1.5} />
+        <p className="text-sm font-medium text-[#667788]">No species found</p>
       </motion.div>
     );
   }

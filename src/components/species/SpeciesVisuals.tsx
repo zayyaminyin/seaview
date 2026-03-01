@@ -2,7 +2,7 @@
 
 import {
   AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
-  PieChart, Pie, Cell, BarChart, Bar, RadarChart, Radar, PolarGrid,
+  BarChart, Bar, RadarChart, Radar, PolarGrid,
   PolarAngleAxis, PolarRadiusAxis, TooltipProps,
 } from "recharts";
 import { Sparkline } from "@/components/ui/Sparkline";
@@ -14,21 +14,23 @@ interface SpeciesVisualsProps {
   relatedSpecies: Species[];
 }
 
-const trendColors: Record<string, { stroke: string; fill: string }> = {
-  increasing: { stroke: "#1565a0", fill: "#1565a020" },
-  stable: { stroke: "#607d8b", fill: "#607d8b20" },
-  decreasing: { stroke: "#e65100", fill: "#e6510020" },
-  unknown: { stroke: "#9e9e9e", fill: "#9e9e9e20" },
+const trendColors: Record<string, { stroke: string; glow: string }> = {
+  increasing: { stroke: "#00bfa5", glow: "#00bfa5" },
+  stable: { stroke: "#5c9ecf", glow: "#5c9ecf" },
+  decreasing: { stroke: "#ff6b35", glow: "#ff6b35" },
+  unknown: { stroke: "#7788aa", glow: "#7788aa" },
 };
 
 const statusOrder: ConservationStatus[] = ["LC", "NT", "VU", "EN", "CR", "EW", "EX"];
 
-function PopTooltip({ active, payload, label }: TooltipProps<number, number>) {
+const threatBarColors = ["#ff4444", "#ff6b35", "#ff9800", "#ffb74d", "#ffd54f"];
+
+function DarkTooltip({ active, payload, label }: TooltipProps<number, number>) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="rounded border border-[#e0e0e0] bg-white px-2 py-1 shadow-sm">
-      <p className="text-[8px] font-bold text-[#666]">{label}</p>
-      <p className="text-[10px] font-bold text-black">{payload[0].value?.toLocaleString()}</p>
+    <div className="ad-tooltip">
+      <p className="ad-tooltip-label">{label}</p>
+      <p className="ad-tooltip-value">{payload[0].value?.toLocaleString()}</p>
     </div>
   );
 }
@@ -42,184 +44,246 @@ function parsePop(str: string): number | null {
   return null;
 }
 
+function formatNum(v: number): string {
+  if (v >= 1e9) return `${(v / 1e9).toFixed(1)}B`;
+  if (v >= 1e6) return `${(v / 1e6).toFixed(1)}M`;
+  if (v >= 1e3) return `${(v / 1e3).toFixed(0)}K`;
+  return String(v);
+}
+
 export function SpeciesVisuals({ species: s, relatedSpecies }: SpeciesVisualsProps) {
   const colors = trendColors[s.populationTrend] || trendColors.unknown;
   const statusIdx = statusOrder.indexOf(s.conservationStatus);
-
-  const threatData = s.threats.map((t, i) => ({
-    name: t.length > 18 ? t.slice(0, 16) + "…" : t,
-    severity: Math.max(30, 100 - i * 15 + (statusIdx >= 3 ? 20 : 0)),
-    fill: i === 0 ? "#c62828" : i === 1 ? "#e65100" : i === 2 ? "#ef6c00" : "#ffa000",
-  }));
-
-  const statusData = statusOrder.map((code) => ({
-    name: code,
-    value: code === s.conservationStatus ? 1 : 0,
-    color: conservationStatusInfo[code].color,
-  }));
-
-  const radarData = [
-    { axis: "Pop. Size", value: statusIdx <= 2 ? 80 - statusIdx * 10 : 30 + (4 - statusIdx) * 5, max: 100 },
-    { axis: "Resilience", value: s.populationTrend === "increasing" ? 85 : s.populationTrend === "stable" ? 60 : 30, max: 100 },
-    { axis: "Habitat", value: s.oceanRegions.length * 15, max: 100 },
-    { axis: "Genetic Div.", value: Math.max(20, 70 - statusIdx * 12), max: 100 },
-    { axis: "Threat Lvl", value: Math.min(100, s.threats.length * 22), max: 100 },
-  ];
 
   const popData = s.populationData;
   const firstPop = popData[0]?.estimate || 1;
   const lastPop = popData[popData.length - 1]?.estimate || 1;
   const changePct = Math.round(((lastPop - firstPop) / firstPop) * 100);
 
-  const compData = [
-    { name: s.commonName.length > 12 ? s.commonName.slice(0, 10) + "…" : s.commonName, pop: parsePop(s.estimatedPopulation) || lastPop, fill: conservationStatusInfo[s.conservationStatus].color },
-    ...relatedSpecies.slice(0, 3).map((rs) => ({
-      name: rs.commonName.length > 12 ? rs.commonName.slice(0, 10) + "…" : rs.commonName,
-      pop: parsePop(rs.estimatedPopulation) || rs.populationData[rs.populationData.length - 1]?.estimate || 0,
-      fill: conservationStatusInfo[rs.conservationStatus].color,
-    })),
+  const radarData = [
+    { axis: "Population", value: statusIdx <= 2 ? 80 - statusIdx * 10 : 30 + (4 - statusIdx) * 5 },
+    { axis: "Resilience", value: s.populationTrend === "increasing" ? 85 : s.populationTrend === "stable" ? 60 : 30 },
+    { axis: "Habitat", value: Math.min(100, s.oceanRegions.length * 15) },
+    { axis: "Genetics", value: Math.max(20, 70 - statusIdx * 12) },
+    { axis: "Threats", value: Math.min(100, s.threats.length * 22) },
   ];
 
-  const decadeAvgs = [
-    { period: "2000–04", avg: Math.round(popData.slice(0, 5).reduce((a, d) => a + d.estimate, 0) / 5) },
-    { period: "2005–09", avg: Math.round(popData.slice(5, 10).reduce((a, d) => a + d.estimate, 0) / 5) },
-    { period: "2010–14", avg: Math.round(popData.slice(10, 15).reduce((a, d) => a + d.estimate, 0) / 5) },
-    { period: "2015–19", avg: Math.round(popData.slice(15, 20).reduce((a, d) => a + d.estimate, 0) / 5) },
-    { period: "2020–24", avg: Math.round(popData.slice(20, 25).reduce((a, d) => a + d.estimate, 0) / Math.min(5, popData.slice(20).length || 1)) },
-  ];
+  const threatData = s.threats.slice(0, 5).map((t, i) => ({
+    name: t.length > 22 ? t.slice(0, 20) + "…" : t,
+    severity: Math.max(25, 100 - i * 15 + (statusIdx >= 3 ? 20 : 0)),
+    color: threatBarColors[i] || threatBarColors[4],
+  }));
+
+  const riskScore = Math.round(
+    (statusIdx / 6) * 40 +
+    (s.populationTrend === "decreasing" ? 30 : s.populationTrend === "unknown" ? 15 : 0) +
+    Math.min(30, s.threats.length * 6)
+  );
+
+  const compSpecies = [
+    { name: s.commonName, pop: parsePop(s.estimatedPopulation) || lastPop, status: s.conservationStatus, isCurrent: true },
+    ...relatedSpecies.slice(0, 4).map((rs) => ({
+      name: rs.commonName,
+      pop: parsePop(rs.estimatedPopulation) || rs.populationData[rs.populationData.length - 1]?.estimate || 0,
+      status: rs.conservationStatus,
+      isCurrent: false,
+    })),
+  ].filter(d => d.pop > 0);
+
+  const maxCompPop = Math.max(...compSpecies.map(d => d.pop), 1);
+
+  const radarAccent = conservationStatusInfo[s.conservationStatus]?.color || "#5c9ecf";
 
   return (
-    <div className="grid grid-cols-3 grid-rows-2 gap-[3px] h-full p-[3px]">
+    <div className="analytics-dark flex flex-col h-full gap-[4px] p-[4px]">
 
-      {/* 1. Population trend (top-left, spans 2 cols) */}
-      <div className="col-span-2 flex flex-col min-h-0 bg-white rounded border border-[#eee]">
-        <div className="flex items-center justify-between px-2 py-0.5 border-b border-[#f0f0f0]">
-          <span className="text-[8px] font-bold uppercase tracking-wider text-[#888]">Population Trend</span>
-          <div className="flex items-center gap-2">
-            <span className={`text-[9px] font-bold ${changePct >= 0 ? "text-[#1565a0]" : "text-[#c62828]"}`}>
-              {changePct >= 0 ? "+" : ""}{changePct}% since 2000
-            </span>
-            <Sparkline data={popData.map((d) => d.estimate)} width={40} height={10} strokeColor={colors.stroke} />
+      {/* ROW 1: Population Trend (2/3) + Risk Radar (1/3) */}
+      <div className="flex gap-[4px] flex-1 min-h-0" style={{ flex: "3 1 0" }}>
+
+        {/* Population Trend - Hero Chart */}
+        <div className="ad-card" style={{ flex: "2 1 0" }}>
+          <div className="ad-card-header">
+            <span>Population Trend</span>
+            <div className="flex items-center gap-2">
+              <span
+                className="text-[10px] font-bold"
+                style={{ color: changePct >= 0 ? "#00bfa5" : "#ff6b35" }}
+              >
+                {changePct >= 0 ? "+" : ""}{changePct}%
+                <span className="text-[8px] font-normal text-[#556677] ml-1">since 2000</span>
+              </span>
+              <Sparkline
+                data={popData.map((d) => d.estimate)}
+                width={44}
+                height={12}
+                strokeColor={colors.stroke}
+              />
+            </div>
+          </div>
+          <div className="ad-card-body">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={popData} margin={{ top: 8, right: 10, left: -5, bottom: 2 }}>
+                <defs>
+                  <linearGradient id="darkPopGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={colors.stroke} stopOpacity={0.35} />
+                    <stop offset="80%" stopColor={colors.stroke} stopOpacity={0.03} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="#1e2d3d" vertical={false} />
+                <XAxis
+                  dataKey="year"
+                  stroke="#2a3a4a"
+                  fontSize={8}
+                  tickLine={false}
+                  tick={{ fill: "#556677" }}
+                />
+                <YAxis
+                  stroke="#2a3a4a"
+                  fontSize={8}
+                  tickLine={false}
+                  tick={{ fill: "#556677" }}
+                  tickFormatter={formatNum}
+                />
+                <Tooltip content={<DarkTooltip />} cursor={{ stroke: "#2a3a4a" }} />
+                <Area
+                  type="monotone"
+                  dataKey="estimate"
+                  stroke={colors.stroke}
+                  strokeWidth={2}
+                  fill="url(#darkPopGrad)"
+                  style={{ filter: `drop-shadow(0 0 4px ${colors.glow}40)` }}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
         </div>
-        <div className="flex-1 min-h-0">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={popData} margin={{ top: 5, right: 8, left: -5, bottom: 0 }}>
-              <defs>
-                <linearGradient id="popGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor={colors.stroke} stopOpacity={0.25} />
-                  <stop offset="100%" stopColor={colors.stroke} stopOpacity={0.02} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" vertical={false} />
-              <XAxis dataKey="year" stroke="#ccc" fontSize={8} tickLine={false} />
-              <YAxis stroke="#ccc" fontSize={8} tickLine={false} tickFormatter={(v) => v >= 1e3 ? `${(v / 1e3).toFixed(0)}K` : String(v)} />
-              <Tooltip content={<PopTooltip />} cursor={{ stroke: "#ddd" }} />
-              <Area type="monotone" dataKey="estimate" stroke={colors.stroke} strokeWidth={1.5} fill="url(#popGrad)" />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
 
-      {/* 2. Vulnerability radar (top-right) */}
-      <div className="flex flex-col min-h-0 bg-white rounded border border-[#eee]">
-        <div className="px-2 py-0.5 border-b border-[#f0f0f0]">
-          <span className="text-[8px] font-bold uppercase tracking-wider text-[#888]">Risk Profile</span>
-        </div>
-        <div className="flex-1 min-h-0">
-          <ResponsiveContainer width="100%" height="100%">
-            <RadarChart data={radarData} outerRadius="65%">
-              <PolarGrid stroke="#e8e8e8" />
-              <PolarAngleAxis dataKey="axis" tick={{ fontSize: 7, fill: "#888" }} />
-              <PolarRadiusAxis tick={false} axisLine={false} domain={[0, 100]} />
-              <Radar dataKey="value" stroke={conservationStatusInfo[s.conservationStatus].color} fill={conservationStatusInfo[s.conservationStatus].color} fillOpacity={0.25} strokeWidth={1.5} />
-            </RadarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* 3. Threat severity bars (bottom-left) */}
-      <div className="flex flex-col min-h-0 bg-white rounded border border-[#eee]">
-        <div className="px-2 py-0.5 border-b border-[#f0f0f0]">
-          <span className="text-[8px] font-bold uppercase tracking-wider text-[#888]">Threat Impact</span>
-        </div>
-        <div className="flex-1 min-h-0 px-1">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={threatData} layout="vertical" margin={{ top: 4, right: 4, left: 0, bottom: 2 }}>
-              <XAxis type="number" hide domain={[0, 100]} />
-              <YAxis type="category" dataKey="name" tick={{ fontSize: 7, fill: "#666" }} width={70} tickLine={false} axisLine={false} />
-              <Bar dataKey="severity" radius={[0, 3, 3, 0]} barSize={8}>
-                {threatData.map((entry, i) => (
-                  <Cell key={i} fill={entry.fill} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* 4. 5-year averages (bottom-center) */}
-      <div className="flex flex-col min-h-0 bg-white rounded border border-[#eee]">
-        <div className="px-2 py-0.5 border-b border-[#f0f0f0]">
-          <span className="text-[8px] font-bold uppercase tracking-wider text-[#888]">5-Year Averages</span>
-        </div>
-        <div className="flex-1 min-h-0">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={decadeAvgs} margin={{ top: 4, right: 4, left: -8, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="2 2" stroke="#f0f0f0" vertical={false} />
-              <XAxis dataKey="period" fontSize={7} tick={{ fill: "#888" }} tickLine={false} />
-              <YAxis fontSize={7} tick={{ fill: "#aaa" }} tickLine={false} tickFormatter={(v) => v >= 1e3 ? `${(v / 1e3).toFixed(0)}K` : String(v)} />
-              <Tooltip content={<PopTooltip />} cursor={{ fill: "#f5f5f5" }} />
-              <Bar dataKey="avg" fill={colors.stroke} radius={[2, 2, 0, 0]} barSize={16} fillOpacity={0.8} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* 5. Population comparison with related species (bottom-right) */}
-      <div className="flex flex-col min-h-0 bg-white rounded border border-[#eee]">
-        <div className="px-2 py-0.5 border-b border-[#f0f0f0]">
-          <span className="text-[8px] font-bold uppercase tracking-wider text-[#888]">Pop. Comparison</span>
-        </div>
-        <div className="flex-1 min-h-0 flex items-center justify-center">
-          {compData.filter(d => d.pop > 0).length > 0 ? (
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={compData.filter(d => d.pop > 0)}
-                  dataKey="pop"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius="35%"
-                  outerRadius="65%"
-                  strokeWidth={1}
-                  stroke="#fff"
-                >
-                  {compData.filter(d => d.pop > 0).map((entry, i) => (
-                    <Cell key={i} fill={entry.fill} fillOpacity={i === 0 ? 1 : 0.5} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  formatter={(value: number) => value.toLocaleString()}
-                  contentStyle={{ fontSize: 9, borderRadius: 4, padding: "2px 6px" }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          ) : (
-            <span className="text-[8px] text-[#aaa]">No data</span>
-          )}
-        </div>
-        <div className="px-1.5 pb-1 flex flex-wrap gap-1 justify-center">
-          {compData.filter(d => d.pop > 0).map((d, i) => (
-            <span key={i} className="flex items-center gap-0.5 text-[6px] text-[#888]">
-              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: d.fill, opacity: i === 0 ? 1 : 0.5 }} />
-              {d.name}
+        {/* Risk Radar */}
+        <div className="ad-card" style={{ flex: "1 1 0" }}>
+          <div className="ad-card-header">
+            <span>Risk Profile</span>
+            <span className="text-[9px] font-bold" style={{ color: radarAccent }}>
+              {s.conservationStatus}
             </span>
-          ))}
+          </div>
+          <div className="ad-card-body">
+            <ResponsiveContainer width="100%" height="100%">
+              <RadarChart data={radarData} outerRadius="60%">
+                <PolarGrid stroke="#1e2d3d" />
+                <PolarAngleAxis
+                  dataKey="axis"
+                  tick={{ fontSize: 8, fill: "#667788" }}
+                />
+                <PolarRadiusAxis tick={false} axisLine={false} domain={[0, 100]} />
+                <Radar
+                  dataKey="value"
+                  stroke={radarAccent}
+                  fill={radarAccent}
+                  fillOpacity={0.2}
+                  strokeWidth={1.5}
+                  style={{ filter: `drop-shadow(0 0 4px ${radarAccent}60)` }}
+                />
+              </RadarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
 
+      {/* ROW 2: Metrics Strip */}
+      <div className="flex gap-[4px] flex-shrink-0">
+        <div className="ad-stat flex-1">
+          <span className="ad-stat-label">Change</span>
+          <span className="ad-stat-value" style={{ color: changePct >= 0 ? "#00bfa5" : "#ff6b35" }}>
+            {changePct >= 0 ? "+" : ""}{changePct}%
+          </span>
+        </div>
+        <div className="ad-stat flex-1">
+          <span className="ad-stat-label">Est. Pop.</span>
+          <span className="ad-stat-value">{s.estimatedPopulation}</span>
+        </div>
+        <div className="ad-stat flex-1">
+          <span className="ad-stat-label">Risk Score</span>
+          <span
+            className="ad-stat-value"
+            style={{ color: riskScore >= 70 ? "#ff4444" : riskScore >= 40 ? "#ff9800" : "#00bfa5" }}
+          >
+            {riskScore}/100
+          </span>
+        </div>
+        <div className="ad-stat flex-1">
+          <span className="ad-stat-label">Threats</span>
+          <span className="ad-stat-value">{s.threats.length}</span>
+        </div>
+      </div>
+
+      {/* ROW 3: Threat Impact (1/2) + Species Comparison (1/2) */}
+      <div className="flex gap-[4px] flex-1 min-h-0" style={{ flex: "2 1 0" }}>
+
+        {/* Threat Impact Bars */}
+        <div className="ad-card" style={{ flex: "1 1 0" }}>
+          <div className="ad-card-header">
+            <span>Threat Impact</span>
+          </div>
+          <div className="ad-card-body overflow-y-auto px-2.5 py-2 flex flex-col justify-center gap-[3px]">
+            {threatData.map((t, i) => (
+              <div key={i} className="ad-bar-row">
+                <span className="ad-bar-label">{t.name}</span>
+                <div className="ad-bar-track">
+                  <div
+                    className="ad-bar-fill"
+                    style={{
+                      width: `${t.severity}%`,
+                      background: `linear-gradient(90deg, ${t.color}cc, ${t.color})`,
+                      boxShadow: `0 0 6px ${t.color}40`,
+                    }}
+                  />
+                </div>
+                <span className="ad-bar-value">{t.severity}%</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Species Comparison - Horizontal Bars */}
+        <div className="ad-card" style={{ flex: "1 1 0" }}>
+          <div className="ad-card-header">
+            <span>Species Comparison</span>
+          </div>
+          <div className="ad-card-body overflow-y-auto px-2.5 py-2 flex flex-col justify-center gap-[3px]">
+            {compSpecies.length > 0 ? (
+              compSpecies.map((sp, i) => {
+                const barColor = conservationStatusInfo[sp.status]?.color || "#5c9ecf";
+                const pct = (sp.pop / maxCompPop) * 100;
+                return (
+                  <div key={i} className="ad-bar-row">
+                    <span
+                      className="ad-bar-label"
+                      style={{ color: sp.isCurrent ? "#e0e8f0" : "#667788", fontWeight: sp.isCurrent ? 700 : 400 }}
+                    >
+                      {sp.name.length > 14 ? sp.name.slice(0, 12) + "…" : sp.name}
+                    </span>
+                    <div className="ad-bar-track">
+                      <div
+                        className="ad-bar-fill"
+                        style={{
+                          width: `${pct}%`,
+                          background: sp.isCurrent
+                            ? `linear-gradient(90deg, ${barColor}cc, ${barColor})`
+                            : `linear-gradient(90deg, ${barColor}66, ${barColor}88)`,
+                          boxShadow: sp.isCurrent ? `0 0 6px ${barColor}40` : "none",
+                        }}
+                      />
+                    </div>
+                    <span className="ad-bar-value">{formatNum(sp.pop)}</span>
+                  </div>
+                );
+              })
+            ) : (
+              <span className="text-[9px] text-[#556677] text-center">No comparison data</span>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

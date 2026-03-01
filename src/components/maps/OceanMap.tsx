@@ -69,7 +69,7 @@ export function OceanMap({
     return (
       <div
         className={cn(
-          "relative w-full h-full bg-[#eee] animate-pulse",
+          "relative w-full h-full bg-[#0f1520] animate-pulse",
           className
         )}
       />
@@ -80,7 +80,7 @@ export function OceanMap({
     return (
       <div
         className={cn(
-          "relative w-full h-full overflow-hidden bg-[#eee]",
+          "relative w-full h-full overflow-hidden bg-[#0f1520]",
           className
         )}
       >
@@ -88,8 +88,8 @@ export function OceanMap({
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px)
+              linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px)
             `,
             backgroundSize: "20px 20px",
           }}

@@ -62,7 +62,7 @@ export function ThreatMeter({ status, threats, className = "" }: ThreatMeterProp
             key={s.code}
             className="flex-1 text-center text-[7px] font-bold"
             style={{
-              color: i === activeIdx ? s.color : "#bbb",
+              color: i === activeIdx ? s.color : "#334455",
             }}
           >
             {s.label}
@@ -71,7 +71,7 @@ export function ThreatMeter({ status, threats, className = "" }: ThreatMeterProp
       </div>
 
       {threats && threats.length > 0 && (
-        <span className="text-[8px] text-[#999]">{threats.length} active threat{threats.length !== 1 ? "s" : ""}</span>
+        <span className="text-[8px] text-[#556677]">{threats.length} active threat{threats.length !== 1 ? "s" : ""}</span>
       )}
     </div>
   );

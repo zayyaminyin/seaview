@@ -32,7 +32,7 @@ export function OccurrenceMap({ slug, center, commonName, className }: Occurrenc
             lat: p.lat,
             lng: p.lng,
             label: p.date || "OBIS Record",
-            color: "#1565a0",
+            color: "#4fb3d9",
           }));
           setMarkers((prev) => [...prev, ...occMarkers]);
         }
@@ -52,19 +52,19 @@ export function OccurrenceMap({ slug, center, commonName, className }: Occurrenc
       />
       {loading && (
         <div
-          className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-[1px] z-[1000]"
+          className="absolute inset-0 flex items-center justify-center bg-[#0a0e1a]/70 backdrop-blur-[1px] z-[1000]"
           aria-live="polite"
           aria-busy="true"
         >
-          <div className="flex items-center gap-2 pill bg-white border border-[#ddd] shadow-sm px-3 py-2">
-            <Loader2 className="w-3.5 h-3.5 text-[#1565a0] animate-spin shrink-0" />
-            <span>Loading OBIS data...</span>
+          <div className="flex items-center gap-2 pill bg-[#111827] border border-[#2a3a4a] shadow-lg px-3 py-2">
+            <Loader2 className="w-3.5 h-3.5 text-[#4fb3d9] animate-spin shrink-0" />
+            <span className="text-[#8899aa]">Loading OBIS data...</span>
           </div>
         </div>
       )}
       {error && !loading && (
         <div
-          className="absolute top-2 left-2 right-2 flex items-center gap-2 pill bg-amber-50 border border-amber-200 text-amber-800 px-3 py-2 z-[1000]"
+          className="absolute top-2 left-2 right-2 flex items-center gap-2 pill bg-[#2a1015] border border-[#4a2025] text-[#ff8a80] px-3 py-2 z-[1000]"
           role="alert"
         >
           <AlertCircle className="w-3.5 h-3.5 shrink-0" />

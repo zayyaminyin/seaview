@@ -30,8 +30,8 @@ export const SpeciesCard = memo(function SpeciesCard({ species }: SpeciesCardPro
       <motion.div
         layout
         className={cn(
-          "overflow-hidden rounded-lg border border-[#e0e0e0] bg-white",
-          "transition-shadow duration-200 hover:shadow-md"
+          "overflow-hidden rounded-lg border border-[#1e2d3d] bg-[#111827]",
+          "transition-shadow duration-200 hover:shadow-lg hover:shadow-black/20 hover:border-[#2a3a4a]"
         )}
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.2, ease: "easeOut" }}
@@ -50,10 +50,10 @@ export const SpeciesCard = memo(function SpeciesCard({ species }: SpeciesCardPro
 
         {/* Content */}
         <div className="p-3">
-          <h3 className="font-bold text-sm text-black leading-tight">
+          <h3 className="font-bold text-sm text-[#e0e8f0] leading-tight">
             {species.commonName}
           </h3>
-          <p className="text-xs italic text-[#666] mt-0.5">
+          <p className="text-xs italic text-[#667788] mt-0.5">
             {species.scientificName}
           </p>
           <div className="flex flex-wrap items-center gap-1.5 mt-2">
@@ -62,11 +62,11 @@ export const SpeciesCard = memo(function SpeciesCard({ species }: SpeciesCardPro
               size="sm"
               showLabel={false}
             />
-            <span className="rounded-sm bg-[#f0f0f0] px-1.5 py-0.5 text-[10px] font-medium text-[#666] uppercase">
+            <span className="rounded-sm bg-[#1a2332] px-1.5 py-0.5 text-[10px] font-medium text-[#8899aa] uppercase">
               {typeLabels[species.type]}
             </span>
           </div>
-          <p className="text-xs text-[#555] line-clamp-2 mt-2 leading-relaxed">
+          <p className="text-xs text-[#8899aa] line-clamp-2 mt-2 leading-relaxed">
             {species.description}
           </p>
         </div>

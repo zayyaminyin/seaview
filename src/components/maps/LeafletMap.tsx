@@ -7,7 +7,7 @@ const LeafletMap = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-full bg-[#eee] animate-pulse min-h-[300px]" />
+      <div className="w-full h-full bg-[#0f1520] animate-pulse min-h-[300px]" />
     ),
   }
 );

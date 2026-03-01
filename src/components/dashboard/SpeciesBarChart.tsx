@@ -18,8 +18,8 @@ type SpeciesBarChartProps = {
   className?: string;
 };
 
-const AXIS_COLOR = "#666";
-const GRID_COLOR = "#eeeeee";
+const AXIS_COLOR = "#556677";
+const GRID_COLOR = "#1e2d3d";
 
 function CustomTooltip({
   active,
@@ -34,17 +34,17 @@ function CustomTooltip({
 
   return (
     <div
-      className="px-3 py-2 rounded border bg-white shadow-sm min-w-[120px]"
-      style={{ borderColor: "#ddd" }}
+      className="px-3 py-2 rounded border bg-[#111827] shadow-lg min-w-[120px]"
+      style={{ borderColor: "#2a3a4a" }}
     >
       <div className="flex items-center gap-2">
         <span
           className="w-2 h-2 rounded-full flex-shrink-0"
           style={{ backgroundColor: item.color }}
         />
-        <span className="text-[#1a1a1a] font-medium text-xs">{item.type}</span>
+        <span className="text-[#e0e8f0] font-medium text-xs">{item.type}</span>
       </div>
-      <div className="text-[#666] text-[11px] mt-1">
+      <div className="text-[#667788] text-[11px] mt-1">
         {item.count.toLocaleString()} species
       </div>
     </div>
@@ -74,8 +74,8 @@ export function SpeciesBarChart({ data, className }: SpeciesBarChartProps) {
             type="number"
             stroke={AXIS_COLOR}
             tick={{ fill: AXIS_COLOR, fontSize: 10 }}
-            axisLine={{ stroke: "#e0e0e0" }}
-            tickLine={{ stroke: "#e0e0e0" }}
+            axisLine={{ stroke: GRID_COLOR }}
+            tickLine={{ stroke: GRID_COLOR }}
             tickFormatter={(v) => v.toLocaleString()}
           />
           <YAxis
@@ -84,13 +84,13 @@ export function SpeciesBarChart({ data, className }: SpeciesBarChartProps) {
             width={55}
             stroke={AXIS_COLOR}
             tick={{ fill: AXIS_COLOR, fontSize: 10 }}
-            axisLine={{ stroke: "#e0e0e0" }}
-            tickLine={{ stroke: "#e0e0e0" }}
+            axisLine={{ stroke: GRID_COLOR }}
+            tickLine={{ stroke: GRID_COLOR }}
           />
           <Tooltip content={<CustomTooltip />} />
           <Bar
             dataKey="count"
-            fill="#1565a0"
+            fill="#4fb3d9"
             fillOpacity={0.85}
             radius={[0, 4, 4, 0]}
             maxBarSize={28}
