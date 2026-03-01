@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Fish } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -16,8 +17,8 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.04,
-      delayChildren: 0.02,
+      staggerChildren: 0.02,
+      delayChildren: 0.01,
     },
   },
 };
@@ -27,12 +28,12 @@ const cardVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.25, ease: "easeOut" as const },
+    transition: { duration: 0.2, ease: "easeOut" as const },
   },
   exit: { opacity: 0, scale: 0.98 },
 };
 
-export function SpeciesGrid({ species, className }: SpeciesGridProps) {
+export const SpeciesGrid = memo(function SpeciesGrid({ species, className }: SpeciesGridProps) {
   if (species.length === 0) {
     return (
       <motion.div
@@ -57,7 +58,7 @@ export function SpeciesGrid({ species, className }: SpeciesGridProps) {
       initial="hidden"
       animate="visible"
       className={cn(
-        "grid gap-4",
+        "grid gap-4 species-grid-scroll",
         "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
         className
       )}
@@ -78,4 +79,4 @@ export function SpeciesGrid({ species, className }: SpeciesGridProps) {
       </AnimatePresence>
     </motion.div>
   );
-}
+});

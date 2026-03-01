@@ -40,10 +40,16 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #c0c0c0; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #999; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #f0f0f0; border-radius: 3px; }
+::-webkit-scrollbar-thumb {
+  background: #b0b0b0;
+  border-radius: 3px;
+  transition: background 0.15s ease;
+}
+::-webkit-scrollbar-thumb:hover { background: #888; }
+::-webkit-scrollbar-thumb:active { background: #666; }
+* { scrollbar-width: thin; scrollbar-color: #b0b0b0 #f0f0f0; }
 
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
@@ -317,6 +323,86 @@ h1, h2, h3, h4, h5, h6 {
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
+}
+
+/* ===== SKELETON LOADING ===== */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #e8e8e8 25%, #f0f0f0 50%, #e8e8e8 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 4px;
+}
+.skeleton-pulse {
+  background: #e8e8e8;
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+/* ===== FADE-IN ANIMATION ===== */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+@keyframes nav-slide-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.nav-mobile-menu {
+  animation: nav-slide-in 0.2s ease-out forwards;
+}
+
+/* ===== SPECIES GRID SCROLL-SNAP (MOBILE) ===== */
+@media (max-width: 640px) {
+  .species-grid-scroll {
+    scroll-snap-type: y proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+  .species-grid-scroll > * {
+    scroll-snap-align: start;
+  }
+}
+
+/* ===== GPU-ACCELERATED TRANSITIONS ===== */
+.panel,
+[data-animate] {
+  will-change: auto;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+.panel:hover,
+[data-animate]:hover {
+  will-change: transform;
+}
+
+/* ===== REDUCED MOTION (ACCESSIBILITY) ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .skeleton,
+  .skeleton-pulse,
+  .img-shimmer {
+    animation: none;
+    background: #e8e8e8;
+  }
+  .fade-in,
+  .nav-mobile-menu {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ===== LEAFLET POPUP STYLING ===== */

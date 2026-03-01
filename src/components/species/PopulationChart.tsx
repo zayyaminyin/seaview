@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo, memo } from "react";
 import {
   AreaChart,
   Area,
@@ -44,7 +45,7 @@ const trendColors = {
   },
 };
 
-function CustomTooltip({
+const CustomTooltip = memo(function CustomTooltip({
   active,
   payload,
   label,
@@ -65,22 +66,26 @@ function CustomTooltip({
       </p>
     </div>
   );
-}
+});
 
-export function PopulationChart({
+const formatYAxisTick = (v: number) =>
+  v >= 1e6 ? `${(v / 1e6).toFixed(1)}M` : v >= 1e3 ? `${(v / 1e3).toFixed(0)}K` : String(v);
+
+export const PopulationChart = memo(function PopulationChart({
   data,
   trend,
   className,
   compact = false,
 }: PopulationChartProps) {
-  const colors = trendColors[trend];
+  const colors = useMemo(() => trendColors[trend], [trend]);
+  const chartMargin = useMemo(() => ({ top: 10, right: 10, left: 0, bottom: 0 }), []);
 
   const chartContent = (
     <div className={cn("w-full", compact ? "flex-1 min-h-0 h-full" : "h-[200px]")}>
       <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data}
-            margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+            margin={chartMargin}
           >
             <defs>
               <linearGradient
@@ -139,13 +144,7 @@ export function PopulationChart({
               tickLine={false}
               axisLine={true}
               tick={{ fill: "#666" }}
-              tickFormatter={(v) =>
-                v >= 1e6
-                  ? `${(v / 1e6).toFixed(1)}M`
-                  : v >= 1e3
-                    ? `${(v / 1e3).toFixed(0)}K`
-                    : String(v)
-              }
+              tickFormatter={formatYAxisTick}
             />
             <CartesianGrid
               strokeDasharray="3 3"
@@ -189,4 +188,4 @@ export function PopulationChart({
       {chartContent}
     </div>
   );
-}
+});

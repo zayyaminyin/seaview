@@ -23,6 +23,7 @@ const typeLabels: Record<SpeciesType, string> = {
   plant: "PLANT",
   coral: "CORAL",
   reptile: "REPTILE",
+  bird: "BIRD",
 };
 
 const trendConfig = {
@@ -36,6 +37,7 @@ const taxonomyMap: Record<string, { kingdom: string; phylum: string; order?: str
   mammal: { kingdom: "Animalia", phylum: "Chordata", order: "Mammalia" },
   fish: { kingdom: "Animalia", phylum: "Chordata", order: "Actinopterygii" },
   reptile: { kingdom: "Animalia", phylum: "Chordata", order: "Reptilia" },
+  bird: { kingdom: "Animalia", phylum: "Chordata", order: "Aves" },
   invertebrate: { kingdom: "Animalia", phylum: "Mollusca" },
   coral: { kingdom: "Animalia", phylum: "Cnidaria" },
   plant: { kingdom: "Plantae", phylum: "Tracheophyta" },

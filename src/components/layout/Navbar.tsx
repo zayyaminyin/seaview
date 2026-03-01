@@ -91,7 +91,7 @@ export function Navbar() {
         <button
           type="button"
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden p-1 text-white/70 hover:text-white"
+          className="md:hidden p-1 text-white/70 hover:text-white transition-opacity duration-200"
           aria-label="Menu"
         >
           {mobileOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
@@ -99,7 +99,10 @@ export function Navbar() {
       </header>
 
       {mobileOpen && (
-        <div className="absolute top-10 left-0 right-0 z-40 md:hidden" style={{ background: "linear-gradient(180deg, #1b2a4a, #0f1f3d)" }}>
+        <div
+          className="absolute top-10 left-0 right-0 z-40 md:hidden nav-mobile-menu"
+          style={{ background: "linear-gradient(180deg, #1b2a4a, #0f1f3d)" }}
+        >
           {navLinks.map((link) => {
             const isActive =
               pathname === link.href ||
@@ -110,8 +113,8 @@ export function Navbar() {
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
                 className={cn(
-                  "block px-4 py-2 text-[11px] font-semibold uppercase tracking-wider border-b border-white/5",
-                  isActive ? "bg-white/15 text-white" : "text-white/50"
+                  "block px-4 py-2 text-[11px] font-semibold uppercase tracking-wider border-b border-white/5 transition-colors duration-150",
+                  isActive ? "bg-white/15 text-white" : "text-white/50 active:bg-white/10"
                 )}
               >
                 {link.label}

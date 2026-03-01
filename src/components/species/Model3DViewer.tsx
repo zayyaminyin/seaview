@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Box, Eye, EyeOff, Maximize2, RotateCcw, Info } from "lucide-react";
+import { memo, useState, useEffect } from "react";
+import { Box, Eye, EyeOff, Loader2, Maximize2, RotateCcw, Info } from "lucide-react";
 
 interface AnatomyItem {
   label: string;
@@ -17,7 +17,7 @@ interface Model3DViewerProps {
   anatomy?: AnatomyItem[];
 }
 
-export function Model3DViewer({
+export const Model3DViewer = memo(function Model3DViewer({
   sketchfabId,
   fallbackImageUrl,
   fallbackImageAlt,
@@ -28,8 +28,15 @@ export function Model3DViewer({
   const [showAnatomy, setShowAnatomy] = useState(true);
   const [selectedPart, setSelectedPart] = useState<AnatomyItem | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
 
   const has3D = !!sketchfabId;
+
+  useEffect(() => {
+    if (!has3D) return;
+    const t = setTimeout(() => setIframeLoaded(true), 4000);
+    return () => clearTimeout(t);
+  }, [has3D]);
 
   const embedUrl = sketchfabId
     ? `https://sketchfab.com/models/${sketchfabId}/embed?autostart=1&autospin=0.2&ui_infos=0&ui_controls=1&ui_stop=0&ui_watermark=0&ui_watermark_link=0&transparent=0&ui_hint=2&ui_theme=dark`
@@ -78,13 +85,22 @@ export function Model3DViewer({
       {/* Viewer area */}
       <div className="flex-1 min-h-0 relative bg-[#f0f2f5]">
         {has3D ? (
-          <iframe
-            title={`${speciesName} 3D Model`}
-            src={embedUrl}
-            className="w-full h-full border-0"
-            allow="autoplay; fullscreen; xr-spatial-tracking"
-            allowFullScreen
-          />
+          <>
+            {!iframeLoaded && (
+              <div className="absolute inset-0 flex items-center justify-center bg-[#f0f2f5] z-10">
+                <Loader2 className="w-8 h-8 text-[#1565a0] animate-spin" />
+              </div>
+            )}
+            <iframe
+              title={`${speciesName} 3D Model`}
+              src={embedUrl}
+              loading="lazy"
+              className="w-full h-full border-0"
+              allow="autoplay; fullscreen; xr-spatial-tracking"
+              allowFullScreen
+              onLoad={() => setIframeLoaded(true)}
+            />
+          </>
         ) : (
           <div className="w-full h-full flex items-center justify-center p-2">
             {fallbackImageUrl ? (
@@ -163,4 +179,4 @@ export function Model3DViewer({
       )}
     </div>
   );
-}
+});

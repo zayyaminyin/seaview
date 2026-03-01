@@ -53,3 +53,21 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
   };
   return debounced as T;
 }
+
+/**
+ * Throttle a function - limits execution to at most once per ms milliseconds (leading edge)
+ */
+export function throttle<T extends (...args: unknown[]) => unknown>(
+  fn: T,
+  ms: number
+): T {
+  let lastCall = 0;
+  const throttled = (...args: Parameters<T>) => {
+    const now = Date.now();
+    if (now - lastCall >= ms) {
+      lastCall = now;
+      fn(...args);
+    }
+  };
+  return throttled as T;
+}

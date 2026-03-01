@@ -221,7 +221,7 @@ export default function HomePage() {
       {/* ROW 3: Status bar */}
       <div className="flex items-center justify-between px-2 py-0.5 bg-white border border-[#e0e0e0] rounded text-[8px] text-[#aaa]">
         <span>Data: NOAA, IUCN Red List, GBIF, OBIS</span>
-        <span>32 species • 10 regions • 5 oceans</span>
+        <span>{species.length} species • 10 regions • 5 oceans</span>
         <span>Last updated: Feb 2026</span>
       </div>
     </div>

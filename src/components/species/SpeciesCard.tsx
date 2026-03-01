@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -18,9 +19,10 @@ const typeLabels: Record<Species["type"], string> = {
   plant: "Plant",
   coral: "Coral",
   reptile: "Reptile",
+  bird: "Bird",
 };
 
-export function SpeciesCard({ species }: SpeciesCardProps) {
+export const SpeciesCard = memo(function SpeciesCard({ species }: SpeciesCardProps) {
   const image = species.images[0];
 
   return (
@@ -31,6 +33,8 @@ export function SpeciesCard({ species }: SpeciesCardProps) {
           "overflow-hidden rounded-lg border border-[#e0e0e0] bg-white",
           "transition-shadow duration-200 hover:shadow-md"
         )}
+        whileHover={{ scale: 1.02 }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
       >
         {/* Image */}
         <div className="relative aspect-[3/2] overflow-hidden">
@@ -38,6 +42,7 @@ export function SpeciesCard({ species }: SpeciesCardProps) {
             src={image?.url ?? "/placeholder-species.jpg"}
             alt={image?.alt ?? species.commonName}
             fill
+            loading="lazy"
             className="object-cover"
             sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
           />
@@ -68,4 +73,4 @@ export function SpeciesCard({ species }: SpeciesCardProps) {
       </motion.div>
     </Link>
   );
-}
+});

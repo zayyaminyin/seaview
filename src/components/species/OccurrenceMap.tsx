@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Loader2, AlertCircle } from "lucide-react";
 import { LeafletMap } from "@/components/maps/LeafletMap";
 
 type OccurrenceMapProps = {
@@ -15,10 +16,16 @@ export function OccurrenceMap({ slug, center, commonName, className }: Occurrenc
     { lat: center.lat, lng: center.lng, label: commonName, color: "#e53935" },
   ]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    setLoading(true);
+    setError(null);
     fetch(`/api/species/${slug}/occurrences`)
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error("Failed to load occurrences");
+        return r.json();
+      })
       .then((data) => {
         if (data.points?.length > 0) {
           const occMarkers = data.points.slice(0, 100).map((p: { lat: number; lng: number; date?: string }) => ({
@@ -30,7 +37,7 @@ export function OccurrenceMap({ slug, center, commonName, className }: Occurrenc
           setMarkers((prev) => [...prev, ...occMarkers]);
         }
       })
-      .catch(() => {})
+      .catch((err) => setError(err?.message ?? "Could not load occurrence data"))
       .finally(() => setLoading(false));
   }, [slug]);
 
@@ -44,10 +51,24 @@ export function OccurrenceMap({ slug, center, commonName, className }: Occurrenc
         tileLayer="esri-ocean"
       />
       {loading && (
-        <div style={{ position: "absolute", top: 4, right: 4, zIndex: 1000 }}>
-          <span className="pill" style={{ background: "#fff", border: "1px solid #ddd" }}>
-            Loading OBIS data...
-          </span>
+        <div
+          className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-[1px] z-[1000]"
+          aria-live="polite"
+          aria-busy="true"
+        >
+          <div className="flex items-center gap-2 pill bg-white border border-[#ddd] shadow-sm px-3 py-2">
+            <Loader2 className="w-3.5 h-3.5 text-[#1565a0] animate-spin shrink-0" />
+            <span>Loading OBIS data...</span>
+          </div>
+        </div>
+      )}
+      {error && !loading && (
+        <div
+          className="absolute top-2 left-2 right-2 flex items-center gap-2 pill bg-amber-50 border border-amber-200 text-amber-800 px-3 py-2 z-[1000]"
+          role="alert"
+        >
+          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+          <span className="text-[10px]">{error}</span>
         </div>
       )}
     </div>

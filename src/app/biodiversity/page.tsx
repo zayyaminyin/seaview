@@ -39,6 +39,7 @@ const SPECIES_TYPE_LABELS: Record<SpeciesType, string> = {
   plant: "Plant",
   coral: "Coral",
   reptile: "Reptile",
+  bird: "Bird",
 };
 
 const TYPES: SpeciesType[] = [
@@ -48,6 +49,7 @@ const TYPES: SpeciesType[] = [
   "plant",
   "coral",
   "reptile",
+  "bird",
 ];
 
 function TrendIcon({ trend }: { trend: string }) {
