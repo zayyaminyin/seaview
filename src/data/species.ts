@@ -1658,7 +1658,7 @@ export const species: Species[] = [
     gbifUrl: "https://www.gbif.org/species/2440505",
     obisUrl: "https://obis.org/taxon/137115",
     estimatedPopulation: "~136,000",
-    sketchfabId: "2618ddb845a94b51b342b30ca5806ecc",
+    sketchfabId: "449db50ed85a421ba416b3a7558f7122",
     anatomy: [
       { label: "Melon", description: "Bulbous forehead used for echolocation, can change shape" },
       { label: "No Dorsal Fin", description: "Dorsal ridge instead of fin, allowing swimming under ice" },
@@ -1748,7 +1748,7 @@ export const species: Species[] = [
     gbifUrl: "https://www.gbif.org/species/2440484",
     obisUrl: "https://obis.org/taxon/137111",
     estimatedPopulation: "~600,000",
-    sketchfabId: "2ec20f15b08c4c2fb16e4df5d837b893",
+    sketchfabId: "e6ab37cbcfa94ff4a0c3dad28c67bef3",
     anatomy: [
       { label: "Rostrum", description: "Elongated snout ('bottle nose') with 72-104 conical teeth" },
       { label: "Melon", description: "Fatty forehead structure focusing echolocation clicks" },
@@ -1928,6 +1928,7 @@ export const species: Species[] = [
     gbifUrl: "https://www.gbif.org/species/2420536",
     obisUrl: "https://obis.org/taxon/105792",
     estimatedPopulation: "Unknown (declining)",
+    sketchfabId: "c220b7b7cd1541429444bfe81941c475",
     anatomy: [
       { label: "Tiger Stripes", description: "Dark vertical bars on flanks, most prominent in juveniles" },
       { label: "Cockscomb Teeth", description: "Heavily serrated teeth with curved cusps for cutting through shells" },
@@ -2017,6 +2018,7 @@ export const species: Species[] = [
     gbifUrl: "https://www.gbif.org/species/2420505",
     obisUrl: "https://obis.org/taxon/105798",
     estimatedPopulation: "Unknown (>98% decline)",
+    sketchfabId: "2f2de580277d487c8cf2209327791cee",
     anatomy: [
       { label: "White-tipped Fins", description: "Distinctive mottled white tips on dorsal and pectoral fins" },
       { label: "Rounded Fins", description: "Unusually large, paddle-shaped pectoral fins for open-ocean cruising" },
@@ -2149,6 +2151,7 @@ export const species: Species[] = [
     gbifUrl: "https://www.gbif.org/species/7210218",
     obisUrl: "https://obis.org/taxon/273760",
     estimatedPopulation: "Abundant (declining locally)",
+    sketchfabId: "9e72b3c82e7049fe96244415e2a98472",
     anatomy: [
       { label: "Beak", description: "Fused dental plates forming a parrot-like beak for scraping coral" },
       { label: "Pharyngeal Mill", description: "Grinding teeth in throat that pulverize coral into sand" },
@@ -2413,6 +2416,7 @@ export const species: Species[] = [
     gbifUrl: "https://www.gbif.org/species/2481371",
     obisUrl: "https://obis.org/taxon/137178",
     estimatedPopulation: "~4.7 million (breeding pairs)",
+    sketchfabId: "99549964d3444d7aabad673e4778daac",
     anatomy: [
       { label: "Colorful Bill", description: "Multi-colored bill with ridges; brightest during breeding, dulls in winter" },
       { label: "UV Fluorescence", description: "Bill stripes glow under UV light—visible to other puffins" },
@@ -2546,6 +2550,7 @@ export const species: Species[] = [
     gbifUrl: "https://www.gbif.org/species/2286655",
     obisUrl: "https://obis.org/taxon/207655",
     estimatedPopulation: "Unknown (declining)",
+    sketchfabId: "171bd7e4e26e47c08a589587753a0876",
     anatomy: [
       { label: "Mantle", description: "Colorful, fleshy tissue filled with zooxanthellae acting as solar panels" },
       { label: "Shell Valves", description: "Two massive calcium carbonate shells with wavy edges" },
@@ -2590,6 +2595,7 @@ export const species: Species[] = [
     gbifUrl: "https://www.gbif.org/species/2225667",
     obisUrl: "https://obis.org/taxon/107613",
     estimatedPopulation: "Unknown (declining)",
+    sketchfabId: "f3b0b56c80954cb4955325e09898527c",
     anatomy: [
       { label: "Prosoma", description: "Horseshoe-shaped front shell housing brain, heart, mouth, and legs" },
       { label: "Book Gills", description: "200 thin leaf-like gills on underside for breathing underwater and on land" },
@@ -2634,6 +2640,7 @@ export const species: Species[] = [
     gbifUrl: "https://www.gbif.org/species/2225620",
     obisUrl: "https://obis.org/taxon/107379",
     estimatedPopulation: "Unknown",
+    sketchfabId: "043bf5f9f40a49ab87ce306a2d8c7b54",
     anatomy: [
       { label: "Chelipeds", description: "First pair of legs modified into long claws for feeding and defense" },
       { label: "Walking Legs", description: "Eight extremely long, spindly legs spanning up to 3.8m" },
@@ -2677,6 +2684,7 @@ export const species: Species[] = [
     gbifUrl: "https://www.gbif.org/species/2286813",
     obisUrl: "https://obis.org/taxon/213289",
     estimatedPopulation: "Variable (outbreak-driven)",
+    sketchfabId: "10d31cb05a1844bb89e83ec0827196d9",
     anatomy: [
       { label: "Venomous Spines", description: "Dense covering of sharp, toxic spines up to 5cm long" },
       { label: "Multiple Arms", description: "12-21 arms radiating from a central disc" },
@@ -2721,6 +2729,7 @@ export const species: Species[] = [
     gbifUrl: "https://www.gbif.org/species/2283424",
     obisUrl: "https://obis.org/taxon/123083",
     estimatedPopulation: "Declining (overharvested)",
+    sketchfabId: "faf7192bf9e94adab220659612b1617f",
     anatomy: [
       { label: "Respiratory Trees", description: "Branching organs in the cloaca for gas exchange (breathing through anus)" },
       { label: "Tube Feet", description: "Modified into oral tentacles for feeding and locomotion" },
